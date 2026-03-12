@@ -23,60 +23,46 @@ const Hero = () => {
       }}
     >
       <AnoAI />
-      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center relative z-10">
+      <div className="max-w-4xl mx-auto px-6 relative z-10 w-full flex flex-col items-center text-center">
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
+          className="flex flex-col items-center"
         >
-          <div className="inline-flex items-center gap-2 bg-bison-dark/5 px-4 py-2 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6 border border-white/30">
             <StripeDecorator className="w-8 h-1 rounded-full" />
-            <span className="text-xs font-bold uppercase tracking-widest text-bison-dark/60">Digital Design Bureau</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-white/90 drop-shadow-sm">Digital Design Bureau</span>
           </div>
-          <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8 font-display uppercase">
+          <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8 font-display uppercase text-white drop-shadow-lg">
             Den Ultimative <br />
-            <span className="italic font-serif normal-case font-medium text-bison-brown">UX Oplevelse</span>
+            <span className="italic font-serif normal-case font-medium text-white drop-shadow-md">UX Oplevelse</span>
           </h1>
-          <p className="text-xl text-bison-dark/60 max-w-md mb-10 leading-relaxed">
+          <p className="text-xl text-white/90 max-w-2xl mb-12 leading-relaxed font-medium drop-shadow-md">
             Vi kombinerer strategi, design og teknologi for at skabe hjemmesider, der ikke bare ser godt ud, men konverterer dine besøgende til loyale kunder.
           </p>
-          <motion.div className="flex flex-wrap gap-4" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link to="/book-et-opkald" className="relative overflow-hidden bg-bison-dark text-white px-10 py-4 rounded-full text-lg font-bold flex items-center gap-2 transition-all group cursor-pointer shadow-lg hover:shadow-bison-dark/30">
+
+          <motion.div
+            className="flex flex-wrap gap-4 mb-8"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            animate={{
+              y: [0, -15, 0],
+            }}
+            transition={{
+              duration: 1.5,
+              ease: "easeInOut",
+              repeat: Infinity,
+              repeatDelay: 4 // Hops every 4 seconds
+            }}
+          >
+            <Link to="/book-et-opkald" className="relative overflow-hidden bg-white text-bison-dark px-10 py-5 rounded-full text-lg font-bold flex items-center gap-2 transition-all group cursor-pointer shadow-[0_0_20px_rgba(255,255,255,0.4)] hover:shadow-[0_0_40px_rgba(255,255,255,0.8)]">
               <span className="relative z-10 flex items-center gap-2 group-hover:gap-4 transition-all duration-300">
                 Kom i gang <ArrowRight size={20} />
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-bison-brown to-bison-dark opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
+              <div className="absolute inset-0 bg-gradient-to-r from-bison-blue/20 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
             </Link>
-          </motion.div>        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="relative"
-        >
-          <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-8 border-white relative">
-            <img
-              src="https://images.unsplash.com/photo-1535940463932-949439a06373?auto=format&fit=crop&q=80&w=2000"
-              alt="Bison i landskab"
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-bison-dark/40 to-transparent" />
-          </div>
-          {/* Floating badge */}
-          <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 4, repeat: Infinity }}
-            className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl max-w-[200px]"
-          >
-            <div className="flex gap-1 mb-2">
-              {[1, 2, 3, 4, 5].map(i => <div key={i} className="w-4 h-4 rounded-full bg-bison-green" />)}
-            </div>
-            <p className="text-sm font-bold text-bison-dark">"Bison Company transformerede vores online tilstedeværelse fuldstændig."</p>
-            <p className="text-xs text-bison-dark/40 mt-2">— Oliver Rørbæk, CEO</p>
           </motion.div>
         </motion.div>
       </div>
