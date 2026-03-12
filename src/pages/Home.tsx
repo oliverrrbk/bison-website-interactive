@@ -15,7 +15,7 @@ const StripeDecorator = ({ vertical = false, className = "" }) => (
 const Hero = () => {
   return (
     <section
-      className="relative min-h-[90vh] flex items-center pt-32 pb-20 overflow-hidden"
+      className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden"
       style={{
         backgroundImage: 'url(/assets/hero-bg.png)',
         backgroundSize: 'cover',
@@ -69,25 +69,6 @@ const Hero = () => {
     </section>
   );
 };
-
-const LogoCloud = () => (
-  <section className="py-20 border-y border-bison-dark/5">
-    <div className="max-w-7xl mx-auto px-6">
-      <p className="text-center text-sm font-bold uppercase tracking-widest text-bison-dark/40 mb-12">Virksomheder vi har hjulpet med at vokse</p>
-      <div className="flex flex-wrap justify-center gap-12 md:gap-24 opacity-40 grayscale transition-all">
-        {['VOLVO', 'NIKE', 'APPLE', 'ADIDAS', 'SONY'].map(logo => (
-          <motion.span
-            key={logo}
-            whileHover={{ scale: 1.15, filter: "grayscale(0%)", opacity: 1 }}
-            className="text-3xl font-black tracking-tighter font-display cursor-default transition-all duration-300"
-          >
-            {logo}
-          </motion.span>
-        ))}
-      </div>
-    </div>
-  </section>
-);
 
 const Services = () => {
   const services = [
@@ -196,7 +177,6 @@ const Home = () => {
   return (
     <main>
       <Hero />
-      <LogoCloud />
       <Services />
       <Mission />
 
