@@ -15,7 +15,7 @@ const StripeDecorator = ({ vertical = false, className = "" }) => (
 const Hero = () => {
   return (
     <section
-      className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden"
+      className="relative min-h-[110vh] flex items-center pt-32 pb-32 overflow-hidden"
       style={{
         backgroundImage: 'url(/assets/hero-bg.png)',
         backgroundSize: 'cover',
@@ -93,9 +93,9 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="py-32 bg-white">
+    <section id="services" className="pt-16 pb-32 bg-white">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center max-w-3xl mx-auto mb-20">
+        <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-6 font-display uppercase">Hvordan vi hjælper dig med at <span className="italic font-serif normal-case font-medium text-bison-brown">vokse</span></h2>
           <p className="text-lg text-bison-dark/60">Vores proces er skræddersyet til at skabe resultater, der kan mærkes på bundlinjen.</p>
         </div>
