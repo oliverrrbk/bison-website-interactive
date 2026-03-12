@@ -34,8 +34,8 @@ const AnoAI = () => {
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
     renderer.domElement.style.pointerEvents = 'none';
-    renderer.domElement.style.mixBlendMode = 'screen';
-    renderer.domElement.style.opacity = '0.5';
+    renderer.domElement.style.mixBlendMode = 'normal'; // Changed to normal so we don't mess with background colors
+    renderer.domElement.style.opacity = '1.0'; // We handle transparency via alpha in the shader now
 
     const material = new THREE.ShaderMaterial({
       transparent: true,
@@ -93,8 +93,9 @@ const AnoAI = () => {
                 }
             }
 
-            // Output very subtle soft color
-            gl_FragColor = vec4(color * 0.7, 1.0); 
+            // Output very subtle soft color, set alpha based on intensity so background is fully transparent
+            float alpha = length(color) > 0.01 ? length(color) * 0.5 : 0.0;
+            gl_FragColor = vec4(color * 0.7, alpha); 
         }
       `
     });

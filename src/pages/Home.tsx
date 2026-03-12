@@ -66,11 +66,6 @@ const Hero = () => {
           </motion.div>
         </motion.div>
       </div>
-
-      {/* Background Stripes */}
-      <div className="absolute top-0 right-0 w-1/3 h-full opacity-10 pointer-events-none">
-        <StripeDecorator vertical className="ml-auto mr-20" />
-      </div>
     </section>
   );
 };
