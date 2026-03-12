@@ -93,7 +93,7 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="pt-16 pb-32 bg-white">
+    <section id="services" className="pt-32 pb-32 bg-white relative z-20 -mt-20">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-6 font-display uppercase">Hvordan vi hjælper dig med at <span className="italic font-serif normal-case font-medium text-bison-brown">vokse</span></h2>
