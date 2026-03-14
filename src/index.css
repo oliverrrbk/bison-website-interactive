@@ -11,6 +11,17 @@
   --color-bison-pink: #FCE4EC;
   --color-bison-green: #DCEDC8;
   --color-bison-bg: #F7F5F2;
+
+  --animate-meteor-effect: meteor 5s linear infinite;
+  
+  @keyframes meteor {
+    0% { transform: rotate(290deg) translateX(0); opacity: 1; }
+    70% { opacity: 1; }
+    100% {
+      transform: rotate(290deg) translateX(-3000px);
+      opacity: 0;
+    }
+  }
 }
 
 @layer base {

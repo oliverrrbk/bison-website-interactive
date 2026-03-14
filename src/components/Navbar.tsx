@@ -27,35 +27,39 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out border-b ${scrolled ? 'bg-white/90 backdrop-blur-xl py-3 shadow-sm border-bison-dark/5' : 'bg-transparent py-5 border-transparent'}`}>
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <Link to="/" className="flex items-center gap-3 group">
+    <nav className="fixed top-0 left-0 right-0 z-50 pt-6 px-4 sm:px-6 transition-all duration-500 ease-out flex justify-center pointer-events-none">
+      <div className={`pointer-events-auto w-full max-w-6xl px-4 sm:px-6 py-2.5 sm:py-3 flex justify-between items-center rounded-full border transition-all duration-500 relative ${scrolled ? 'bg-white/60 border-white/40 shadow-xl shadow-bison-dark/5 backdrop-blur-xl' : 'bg-white/10 border-white/20 shadow-lg backdrop-blur-md hover:bg-white/15'}`}>
+        <Link to="/" className="flex items-center gap-2 sm:gap-3 group">
           <motion.div
             whileHover={{ rotate: 15, scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className={`w-10 h-10 ${scrolled ? 'bg-bison-dark text-white' : 'bg-white text-bison-dark'} rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300`}
+            className={`w-9 h-9 sm:w-10 sm:h-10 ${scrolled ? 'bg-bison-dark text-white' : 'bg-white text-bison-dark'} rounded-full flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300`}
           >
-            <span className="font-black text-xl">B</span>
+            <span className="font-black text-lg sm:text-xl">B</span>
           </motion.div>
-          <span className={`text-2xl font-black tracking-tighter ${scrolled ? 'text-bison-dark' : 'text-white'} font-display uppercase group-hover:text-bison-brown transition-colors duration-300`}>Bison Company</span>
+          <span className={`text-xl sm:text-2xl font-black tracking-tighter ${scrolled ? 'text-bison-dark' : 'text-white'} font-display uppercase group-hover:text-amber-500 transition-colors duration-300`}>Bison</span>
         </Link>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6 lg:gap-8 absolute left-1/2 -translate-x-1/2">
           {navItems.map((item) => (
             <Link
               key={item.name}
               to={item.path}
-              className={`text-sm font-semibold relative py-1 overflow-hidden group ${location.pathname === item.path ? 'text-bison-brown' : (scrolled ? 'text-bison-dark/70 hover:text-bison-dark' : 'text-white/80 hover:text-white')} transition-colors duration-300`}
+              className={`text-sm font-bold tracking-wide relative py-1 overflow-hidden group ${location.pathname === item.path ? 'text-amber-500' : (scrolled ? 'text-bison-dark/80 hover:text-bison-dark' : 'text-white/90 hover:text-white')} transition-colors duration-300`}
             >
               {item.name}
-              <span className={`absolute bottom-0 left-0 w-full h-[2px] bg-bison-brown origin-left transition-transform duration-300 ease-out ${location.pathname === item.path ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
+              <span className={`absolute bottom-0 left-0 w-full h-[2px] bg-amber-500 origin-left transition-transform duration-300 ease-out ${location.pathname === item.path ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
             </Link>
           ))}
+        </div>
+
+        {/* Desktop Call to action */}
+        <div className="hidden md:flex items-center">
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link to="/book-et-opkald" className={`relative group overflow-hidden ${scrolled ? 'bg-bison-dark text-white' : 'bg-white text-bison-dark'} px-7 py-3 rounded-full text-sm font-bold shadow-md hover:shadow-xl transition-all duration-300 flex items-center`}>
+            <Link to="/book-et-opkald" className={`relative group overflow-hidden ${scrolled ? 'bg-bison-dark text-white' : 'bg-white text-bison-dark'} px-6 py-2.5 rounded-full text-sm font-bold shadow-md hover:shadow-xl transition-all duration-300 flex items-center`}>
               <span className="relative z-10 transition-colors group-hover:text-white">Book et opkald</span>
-              <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-bison-brown to-bison-dark opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
+              <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-amber-500 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
             </Link>
           </motion.div>
         </div>
@@ -66,38 +70,39 @@ const Navbar = () => {
           className={`md:hidden p-2 rounded-full transition-colors ${scrolled ? 'text-bison-dark bg-bison-dark/5 hover:bg-bison-dark/10' : 'text-white bg-white/10 hover:bg-white/20'}`}
           onClick={() => setIsOpen(!isOpen)}
         >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {isOpen ? <X size={20} /> : <Menu size={20} />}
         </motion.button>
-      </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="absolute top-full left-0 right-0 bg-white/95 backdrop-blur-xl border-b border-bison-dark/5 flex flex-col overflow-hidden md:hidden shadow-2xl"
-          >
-            <div className="p-6 flex flex-col gap-4">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={`text-lg font-bold p-3 rounded-xl transition-colors ${location.pathname === item.path ? 'bg-bison-dark/5 text-bison-brown' : 'text-bison-dark hover:bg-bison-dark/5'}`}
-                >
-                  {item.name}
-                </Link>
-              ))}
-              <motion.div whileTap={{ scale: 0.95 }} className="mt-2">
-                <Link to="/book-et-opkald" className="bg-bison-dark text-white px-6 py-4 rounded-xl text-base font-bold text-center block shadow-lg">
-                  Book et opkald
-                </Link>
-              </motion.div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="absolute top-[calc(100%+12px)] left-0 right-0 bg-white/90 backdrop-blur-2xl border border-white/50 rounded-3xl flex flex-col overflow-hidden md:hidden shadow-[0_8px_32px_rgba(0,0,0,0.1)] p-4"
+            >
+              <div className="flex flex-col gap-2">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    className={`text-base font-bold p-3 rounded-2xl transition-colors ${location.pathname === item.path ? 'bg-amber-500/10 text-amber-600' : 'text-bison-dark hover:bg-bison-dark/5'}`}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+                <motion.div whileTap={{ scale: 0.95 }} className="mt-2">
+                  <Link to="/book-et-opkald" className="bg-bison-dark text-white px-6 py-4 rounded-2xl text-base font-bold text-center block shadow-lg">
+                    Book et opkald
+                  </Link>
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </nav>
   );
 };

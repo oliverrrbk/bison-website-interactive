@@ -6,7 +6,7 @@ import {
   Quote
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import AnoAI from '../components/ui/animated-shader-background';
+import { Meteors } from '../components/ui/meteors';
 
 const StripeDecorator = ({ vertical = false, className = "" }) => (
   <div className={`${vertical ? 'bison-stripes-vertical w-1.5 h-full' : 'bison-stripes h-1.5 w-full'} ${className}`} />
@@ -22,7 +22,15 @@ const Hero = () => {
         backgroundPosition: 'center top'
       }}
     >
-      <AnoAI />
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          clipPath: 'polygon(0 0, 100% 0, 100% 80%, 0 20%)',
+          WebkitClipPath: 'polygon(0 0, 100% 0, 100% 80%, 0 20%)'
+        }}
+      >
+        <Meteors number={40} />
+      </div>
       <div className="max-w-4xl mx-auto px-6 relative z-10 w-full flex flex-col items-center text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -31,13 +39,9 @@ const Hero = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="flex flex-col items-center"
         >
-          <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6 border border-white/30">
-            <StripeDecorator className="w-8 h-1 rounded-full" />
-            <span className="text-xs font-bold uppercase tracking-widest text-white/90 drop-shadow-sm">Digital Design Bureau</span>
-          </div>
-          <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8 font-display uppercase text-white drop-shadow-lg">
+          <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8 font-display uppercase text-bison-pink drop-shadow-lg">
             Den Ultimative <br />
-            <span className="italic font-serif normal-case font-medium text-white drop-shadow-md">UX Oplevelse</span>
+            <span className="italic font-serif normal-case font-medium text-bison-pink drop-shadow-md">UX Oplevelse</span>
           </h1>
           <p className="text-xl text-white/90 max-w-2xl mb-12 leading-relaxed font-medium drop-shadow-md">
             Vi kombinerer strategi, design og teknologi for at skabe hjemmesider, der ikke bare ser godt ud, men konverterer dine besøgende til loyale kunder.
@@ -94,6 +98,7 @@ const Services = () => {
 
   return (
     <section id="services" className="pt-32 pb-32 bg-white relative z-20 -mt-20">
+      <div className="absolute top-0 left-0 w-full h-2 bison-stripes" />
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-6 font-display uppercase">Hvordan vi hjælper dig med at <span className="italic font-serif normal-case font-medium text-bison-brown">vokse</span></h2>
