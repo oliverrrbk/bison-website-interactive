@@ -31,13 +31,16 @@ const Navbar = () => {
       <div className={`pointer-events-auto w-full max-w-6xl px-4 sm:px-6 py-2.5 sm:py-3 flex justify-between items-center rounded-full border transition-all duration-500 relative ${scrolled ? 'bg-white/60 border-white/40 shadow-xl shadow-bison-dark/5 backdrop-blur-xl' : 'bg-white/10 border-white/20 shadow-lg backdrop-blur-md hover:bg-white/15'}`}>
         <Link to="/" className="flex items-center gap-2 sm:gap-3 group">
           <motion.div
-            whileHover={{ rotate: 15, scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className={`w-9 h-9 sm:w-10 sm:h-10 ${scrolled ? 'bg-bison-dark text-white' : 'bg-white text-bison-dark'} rounded-full flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={`h-12 sm:h-16 flex items-center justify-center transition-all duration-300`}
           >
-            <span className="font-black text-lg sm:text-xl">B</span>
+            <img 
+              src="/assets/logo-clean.png" 
+              alt="Bison Logo" 
+              className={`h-full w-auto object-contain transition-all duration-300 ${scrolled ? 'brightness-100' : 'brightness-0 invert'}`} 
+            />
           </motion.div>
-          <span className={`text-xl sm:text-2xl font-black tracking-tighter ${scrolled ? 'text-bison-dark' : 'text-white'} font-display uppercase group-hover:text-amber-500 transition-colors duration-300`}>Bison</span>
         </Link>
 
         {/* Desktop Menu */}
@@ -46,10 +49,10 @@ const Navbar = () => {
             <Link
               key={item.name}
               to={item.path}
-              className={`text-sm font-bold tracking-wide relative py-1 overflow-hidden group ${location.pathname === item.path ? 'text-amber-500' : (scrolled ? 'text-bison-dark/80 hover:text-bison-dark' : 'text-white/90 hover:text-white')} transition-colors duration-300`}
+              className={`text-base font-bold tracking-wide relative py-1 overflow-hidden group ${location.pathname === item.path ? 'text-bison-green' : (scrolled ? 'text-bison-dark/80 hover:text-bison-dark' : 'text-white/90 hover:text-white')} transition-colors duration-300`}
             >
               {item.name}
-              <span className={`absolute bottom-0 left-0 w-full h-[2px] bg-amber-500 origin-left transition-transform duration-300 ease-out ${location.pathname === item.path ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
+              <span className={`absolute bottom-0 left-0 w-full h-[2px] bg-bison-green origin-left transition-transform duration-300 ease-out ${location.pathname === item.path ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
             </Link>
           ))}
         </div>
@@ -57,9 +60,9 @@ const Navbar = () => {
         {/* Desktop Call to action */}
         <div className="hidden md:flex items-center">
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link to="/book-et-opkald" className={`relative group overflow-hidden ${scrolled ? 'bg-bison-dark text-white' : 'bg-white text-bison-dark'} px-6 py-2.5 rounded-full text-sm font-bold shadow-md hover:shadow-xl transition-all duration-300 flex items-center`}>
-              <span className="relative z-10 transition-colors group-hover:text-white">Book et opkald</span>
-              <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-amber-500 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
+            <Link to="/book-et-opkald" className={`relative group overflow-hidden ${scrolled ? 'bg-bison-dark text-white' : 'bg-white text-bison-dark'} px-7 py-3 rounded-full text-base font-bold shadow-md hover:shadow-xl transition-all duration-300 flex items-center`}>
+              <span className="relative z-10 transition-colors group-hover:text-bison-dark">Book et opkald</span>
+              <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-bison-green to-[#C5E1A5] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
             </Link>
           </motion.div>
         </div>
@@ -88,7 +91,7 @@ const Navbar = () => {
                   <Link
                     key={item.name}
                     to={item.path}
-                    className={`text-base font-bold p-3 rounded-2xl transition-colors ${location.pathname === item.path ? 'bg-amber-500/10 text-amber-600' : 'text-bison-dark hover:bg-bison-dark/5'}`}
+                    className={`text-lg font-bold p-3 rounded-2xl transition-colors ${location.pathname === item.path ? 'bg-bison-green/20 text-[#8EBE59]' : 'text-bison-dark hover:bg-bison-dark/5'}`}
                   >
                     {item.name}
                   </Link>

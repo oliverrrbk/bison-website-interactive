@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import {
   ArrowRight,
-  CheckCircle2,
+  PenTool,
+  Code,
+  LineChart,
   Quote
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -39,7 +41,7 @@ const Hero = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="flex flex-col items-center"
         >
-          <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8 font-display uppercase text-bison-pink drop-shadow-lg">
+          <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8 font-display uppercase text-white drop-shadow-lg">
             Den Ultimative <br />
             <span className="italic font-serif normal-case font-medium text-bison-pink drop-shadow-md">UX Oplevelse</span>
           </h1>
@@ -80,19 +82,19 @@ const Services = () => {
       title: "UX Design",
       desc: "Vi designer brugeroplevelser, der føles naturlige og intuitive.",
       color: "bg-bison-blue/20",
-      icon: <CheckCircle2 className="text-bison-blue" />
+      icon: <PenTool className="text-[#0284c7] drop-shadow-sm" size={28} />
     },
     {
       title: "Webudvikling",
       desc: "Lynhurtige og responsive hjemmesider bygget med den nyeste teknologi.",
       color: "bg-bison-pink/20",
-      icon: <CheckCircle2 className="text-bison-pink" />
+      icon: <Code className="text-[#db2777] drop-shadow-sm" size={28} />
     },
     {
       title: "Digital Strategi",
       desc: "Vi lægger planen for din vækst og sikrer at du når dine mål.",
       color: "bg-bison-green/20",
-      icon: <CheckCircle2 className="text-bison-green" />
+      icon: <LineChart className="text-[#4d7c0f] drop-shadow-sm" size={28} />
     }
   ];
 

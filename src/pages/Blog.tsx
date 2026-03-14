@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Clock, User } from 'lucide-react';
+import { PageSkyHeader } from '../components/ui/page-sky-header';
 
 const Blog = () => {
   useEffect(() => {
@@ -39,6 +40,7 @@ const Blog = () => {
 
   return (
     <main className="pt-32">
+      <PageSkyHeader />
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
