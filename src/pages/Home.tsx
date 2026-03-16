@@ -396,10 +396,10 @@ const Home = () => {
 
   const [activeCaseIndex, setActiveCaseIndex] = useState(0);
   const cases = [
-    "/case1.png",
-    "/case2.png",
+    "/case4.png",
     "/case3.png",
-    "/case4.png"
+    "/case2.png",
+    "/case1.png"
   ];
 
   const nextCase = () => setActiveCaseIndex((prev) => (prev + 1) % cases.length);
