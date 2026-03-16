@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { motion } from 'motion/react';
+import React, { useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform, useMotionTemplate } from 'motion/react';
 import {
   ArrowRight,
   PenTool,
@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Meteors } from '../components/ui/meteors';
+import { ModernPricingPage, PricingCardProps } from '../components/ui/animated-glassy-pricing';
 
 const StripeDecorator = ({ vertical = false, className = "" }) => (
   <div className={`${vertical ? 'bison-stripes-vertical w-1.5 h-full' : 'bison-stripes h-1.5 w-full'} ${className}`} />
@@ -176,6 +177,190 @@ const Mission = () => (
   </section>
 );
 
+const myPricingPlans: PricingCardProps[] = [
+  { 
+    planName: 'Basic', 
+    description: 'Perfekt til mindre projekter eller selvstændige.', 
+    price: '4.900', 
+    features: ['Skræddersyet design', 'Lynhurtig performance', 'Mobiloptimeret', 'Grundlæggende SEO', 'Kontaktformular', '1 times træning'], 
+    buttonText: 'Kom i gang', 
+    buttonVariant: 'secondary',
+    themeColor: 'green'
+  },
+  { 
+    planName: 'Pro', 
+    description: 'For virksomheder med ambitioner om bæredygtig vækst.', 
+    price: '12.500', 
+    features: ['Alt i Basic plan', 'Ubegrænset brugerdefinering', 'Integreret blog', 'Premium animationer', 'Udvidet SEO', 'Månedlig vedligehold'], 
+    buttonText: 'Vælg Pro', 
+    isPopular: true, 
+    buttonVariant: 'primary',
+    themeColor: 'pink'
+  },
+  { 
+    planName: 'Enterprise', 
+    description: 'Fuldautomatiseret og skalerbar løsning til de største.', 
+    price: '35.000', 
+    features: ['Alt i Pro plan', 'E-commerce platform', 'Komplekse integrationer', 'A/B Test muligheder', '24/7 Premium support', 'Fuld ejerskab af kode'], 
+    buttonText: 'Kontakt os', 
+    buttonVariant: 'primary',
+    themeColor: 'blue'
+  },
+];
+
+const StepItem = ({ step, title1, title2, desc, align, bgColor, textColor }) => {
+  return (
+    <motion.div
+      initial="inactive"
+      whileInView="active"
+      viewport={{ once: false, margin: "-35% 0px -35% 0px" }}
+      variants={{
+        inactive: { opacity: 0.15, y: 30, scale: 0.95 },
+        active: { opacity: 1, y: 0, scale: 1 },
+      }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      className={`flex w-full ${align === 'left' ? 'justify-start' : 'justify-end'} relative`}
+    >
+       <div className={`w-full md:w-[45%] flex flex-col items-start ${align === 'right' ? 'md:pl-16 md:pr-4' : 'md:pr-16 md:pl-4'}`}>
+         <div className="mb-6">
+           <span className="px-3 py-1.5 text-xs font-bold uppercase tracking-widest shadow-[0_2px_10px_rgba(0,0,0,0.05)]" style={{ backgroundColor: bgColor, color: textColor }}>
+             Step {step}
+           </span>
+         </div>
+         <h3 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 text-[#1b1b1b]">
+           <span className="italic font-serif normal-case font-medium">{title1}</span>{title2}
+         </h3>
+         <p className="text-lg md:text-xl text-black/50 font-medium leading-relaxed max-w-[400px]">
+           {desc}
+         </p>
+       </div>
+    </motion.div>
+  )
+}
+
+const SmoothLiftoff = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Track scroll progress within the middle section
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end center"]
+  });
+
+  return (
+    <section className="bg-[#FAF9F6] relative border-t border-black/5 overflow-hidden" id="smooth-liftoff">
+      <div className="max-w-7xl mx-auto px-6 pt-32 pb-32">
+        {/* Header */}
+        <div className="text-center max-w-2xl mx-auto mb-40 z-10 relative">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="text-4xl md:text-5xl tracking-tight mb-6 text-[#1b1b1b]"
+          >
+            A smooth liftoff into <span className="italic font-serif normal-case font-medium text-bison-brown">Air.</span>
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="text-lg md:text-[21px] text-black/60 font-medium leading-relaxed"
+          >
+            Enjoy hands-on support from experts in creative operations, file digitization, systemization, and streamlining.
+          </motion.p>
+        </div>
+
+        {/* Workflow steps */}
+        <div ref={containerRef} className="relative max-w-5xl mx-auto py-12">
+          {/* subtle background track */}
+          <div className="absolute left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 bg-black/5 hidden md:block" />
+          
+          {/* scroll-revealed brightly colored gradient track */}
+          <motion.div 
+            className="absolute left-1/2 w-[4px] -translate-x-1/2 hidden md:block rounded-full"
+            style={{ 
+              backgroundImage: useMotionTemplate`linear-gradient(to bottom, ${useTransform(
+                scrollYProgress,
+                [0, 0.35, 0.55, 0.75, 0.95, 1],
+                ["#b2d08d", "#b2d08d", "#e5aad8", "#e5aad8", "#1095ed", "#1095ed"]
+              )}, ${useTransform(
+                scrollYProgress,
+                [0, 0.15, 0.45, 0.65, 0.85, 1],
+                ["#b2d08d", "#e5aad8", "#e5aad8", "#1095ed", "#1095ed", "#1095ed"]
+              )})`,
+              top: useMotionTemplate`calc(${useTransform(scrollYProgress, [0, 1], [0, 100])}% - ${useTransform(scrollYProgress, [0, 1], [0, 350])}px)`,
+              height: '350px',
+              boxShadow: '0 0 20px rgba(0,0,0,0.1)'
+            }}
+          />
+          
+          <div className="flex flex-col gap-32 md:gap-40 lg:gap-48 relative z-10 md:py-24">
+            <StepItem 
+              step="01" 
+              title1="Book " title2="a demo" 
+              desc="Get a personalized walkthrough from a real human, tailored to your team’s bespoke needs."
+              align="left"
+              bgColor="#b2d08d"
+              textColor="#000"
+            />
+            <StepItem 
+              step="02" 
+              title1="Move " title2="your content" 
+              desc="Get in-person support moving your content from legacy systems—metadata, rights, and version history preserved."
+              align="right"
+              bgColor="#e5aad8"
+              textColor="#000"
+            />
+            <StepItem 
+              step="03" 
+              title1="Take " title2="flight" 
+              desc="Get ongoing guidance from a dedicated expert to structure and scale your workflow through best practices."
+              align="left"
+              bgColor="#1095ed"
+              textColor="#fff"
+            />
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center max-w-3xl mx-auto mt-40 z-10 relative">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="text-5xl md:text-7xl tracking-tight mb-8 text-[#1b1b1b]"
+          >
+            We're here to <span className="italic font-serif normal-case font-semibold">help</span>
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="text-xl md:text-2xl text-black/60 font-medium leading-relaxed mb-12"
+          >
+            Our team will collect your legacy storage—from physical hard drives and film reels to digital cloud archives and outdated systems—and transforms it with AI, making everything searchable from one place in seconds.
+          </motion.p>
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Link to="/demo" className="inline-flex items-center justify-center px-8 py-4 rounded-full border border-black/20 text-[#1b1b1b] font-medium text-lg hover:border-black transition-all duration-300">
+              Get started with Enterprise
+            </Link>
+          </motion.div>
+        </div>
+
+      </div>
+    </section>
+  );
+};
+
 const Home = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -223,6 +408,20 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Smooth Liftoff Section */}
+      <SmoothLiftoff />
+
+      {/* Modern Pricing Section */}
+      <ModernPricingPage
+        title={
+          <>
+            Find the <span className="italic font-serif normal-case font-medium text-bison-brown">Perfect Plan</span> for Your Business
+          </>
+        }
+        subtitle="Start for free, then grow with us. Flexible plans for projects of all sizes."
+        plans={myPricingPlans}
+        showAnimatedBackground={true}
+      />
       {/* Final CTA Section */}
       <section className="py-32 px-6">
         <div className="max-w-7xl mx-auto bg-bison-dark rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden">
