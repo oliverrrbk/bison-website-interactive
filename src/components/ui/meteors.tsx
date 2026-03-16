@@ -21,9 +21,9 @@ export const Meteors = ({
           )}
           style={{
             top: Math.floor(Math.random() * -20) + "%",
-            left: Math.floor(Math.random() * 120) - 10 + "%",
+            left: Math.floor(-20 + (idx * (140 / (number || 20))) + Math.random() * (140 / (number || 20))) + "%",
             animationDelay: Math.random() * (12 - 0) + 0 + "s",
-            animationDuration: Math.floor(Math.random() * (20 - 5) + 5) + "s",
+            animationDuration: Math.floor(Math.random() * (35 - 15) + 15) + "s",
           }}
         ></span>
       ))}

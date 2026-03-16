@@ -28,11 +28,11 @@ const Hero = () => {
       <div 
         className="absolute inset-0 z-0 pointer-events-none"
         style={{
-          clipPath: 'polygon(0 0, 100% 0, 100% 80%, 0 20%)',
-          WebkitClipPath: 'polygon(0 0, 100% 0, 100% 80%, 0 20%)'
+          maskImage: 'linear-gradient(195deg, black 35%, transparent 44%)',
+          WebkitMaskImage: 'linear-gradient(195deg, black 35%, transparent 44%)'
         }}
       >
-        <Meteors number={40} />
+        <Meteors number={28} />
       </div>
       <div className="max-w-4xl mx-auto px-6 relative z-10 w-full flex flex-col items-center text-center">
         <motion.div
@@ -145,10 +145,25 @@ const Services = () => {
   );
 };
 
-const Mission = () => (
-  <section className="py-32 bg-bison-bg relative overflow-hidden">
-    <div className="max-w-4xl mx-auto px-6 relative z-10">
-      <motion.div
+const Mission = () => {
+  const scrollRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: scrollRef,
+    offset: ["start end", "end start"]
+  });
+  
+  // Parallax bevægelse fra -15% til 15% af vinduets bredde (starter venstre, slutter højre)
+  const xScroll = useTransform(scrollYProgress, [0, 1], ["-15vw", "15vw"]);
+
+  return (
+    <section ref={scrollRef} className="py-32 bg-bison-bg relative overflow-hidden">
+      {/* Togskinner: To tværgående linjer der agerer spor */}
+      <StripeDecorator className="absolute left-0 top-[20%] w-full h-2 opacity-20" />
+      <StripeDecorator className="absolute left-0 bottom-[20%] w-full h-2 opacity-20" />
+
+      <div className="max-w-4xl mx-auto px-6 relative z-10 w-full overflow-visible">
+        <motion.div
+          style={{ x: xScroll }}
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -183,11 +198,9 @@ const Mission = () => (
         </div>
       </motion.div>
     </div>
-
-    <StripeDecorator className="absolute left-0 top-1/4 w-32 h-2 opacity-20" />
-    <StripeDecorator className="absolute right-0 top-3/4 w-48 h-2 opacity-20" />
   </section>
-);
+  );
+};
 
 const myPricingPlans: PricingCardProps[] = [
   { 
