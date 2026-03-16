@@ -63,12 +63,12 @@ const Footer = () => (
           <h4 className="font-bold uppercase tracking-widest text-xs text-white/40 mb-6">Kontakt</h4>
           <ul className="space-y-4 font-bold text-sm">
             <li className="flex items-center gap-3 group">
-              <motion.div whileHover={{ scale: 1.2, rotate: 10 }}><Mail size={16} className="text-bison-blue group-hover:text-white transition-colors" /></motion.div>
-              <a href="mailto:or@bisoncompany.dk" className="hover:text-bison-blue transition-colors">or@bisoncompany.dk</a>
+              <motion.div whileHover={{ scale: 1.2, rotate: 10 }}><Mail size={16} className="text-bison-green group-hover:text-white transition-colors" /></motion.div>
+              <a href="mailto:or@bisoncompany.dk" className="hover:text-bison-green transition-colors">or@bisoncompany.dk</a>
             </li>
             <li className="flex items-center gap-3 group">
-              <motion.div whileHover={{ scale: 1.2, rotate: 10 }}><Phone size={16} className="text-bison-blue group-hover:text-white transition-colors" /></motion.div>
-              <a href="tel:+4520323144" className="hover:text-bison-blue transition-colors">+45 20 32 31 44</a>
+              <motion.div whileHover={{ scale: 1.2, rotate: 10 }}><Phone size={16} className="text-bison-pink group-hover:text-white transition-colors" /></motion.div>
+              <a href="tel:+4520323144" className="hover:text-bison-pink transition-colors">+45 20 32 31 44</a>
             </li>
             <li className="flex items-center gap-3 group">
               <motion.div whileHover={{ scale: 1.2, rotate: 10 }}><MapPin size={16} className="text-bison-blue group-hover:text-white transition-colors" /></motion.div>

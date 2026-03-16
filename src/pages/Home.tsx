@@ -82,20 +82,23 @@ const Services = () => {
     {
       title: "UX Design",
       desc: "Vi designer brugeroplevelser, der føles naturlige og intuitive.",
-      color: "bg-bison-blue/20",
-      icon: <PenTool className="text-[#0284c7] drop-shadow-sm" size={28} />
+      color: "bg-bison-blue/10 backdrop-blur-xl border-white/50",
+      cloudColor: "bg-[#0284c7]",
+      icon: <PenTool className="text-[#0284c7] drop-shadow-sm relative z-10" size={28} />
     },
     {
       title: "Webudvikling",
       desc: "Lynhurtige og responsive hjemmesider bygget med den nyeste teknologi.",
-      color: "bg-bison-pink/20",
-      icon: <Code className="text-[#db2777] drop-shadow-sm" size={28} />
+      color: "bg-bison-pink/10 backdrop-blur-xl border-white/50",
+      cloudColor: "bg-[#db2777]",
+      icon: <Code className="text-[#db2777] drop-shadow-sm relative z-10" size={28} />
     },
     {
       title: "Digital Strategi",
       desc: "Vi lægger planen for din vækst og sikrer at du når dine mål.",
-      color: "bg-bison-green/20",
-      icon: <LineChart className="text-[#4d7c0f] drop-shadow-sm" size={28} />
+      color: "bg-bison-green/10 backdrop-blur-xl border-white/50",
+      cloudColor: "bg-[#4d7c0f]",
+      icon: <LineChart className="text-[#4d7c0f] drop-shadow-sm relative z-10" size={28} />
     }
   ];
 
@@ -116,15 +119,24 @@ const Services = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
-              whileHover={{ y: -10, scale: 1.02, boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.1)" }}
+              whileHover={{ y: -10, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className={`${s.color} p-10 rounded-3xl border border-bison-dark/5 flex flex-col gap-6 transition-colors duration-300`}
+              className="group relative isolate"
             >
-              <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                {s.icon}
+              {/* Fuzzy svævende skyer UDENOM kortet */}
+              <div className="absolute -inset-8 pointer-events-none opacity-40 z-[-1] transition-opacity duration-500 group-hover:opacity-70">
+                <div className={`absolute top-[-10%] left-[-15%] w-[80%] h-[80%] rounded-full blur-[40px] ${s.cloudColor} animate-cloud-1 group-hover:[animation-play-state:paused]`} />
+                <div className={`absolute bottom-[-10%] right-[-15%] w-[90%] h-[90%] rounded-full blur-[50px] ${s.cloudColor} animate-cloud-2 group-hover:[animation-play-state:paused]`} />
               </div>
-              <h3 className="text-2xl font-black font-display uppercase tracking-tight">{s.title}</h3>
-              <p className="text-bison-dark/60 leading-relaxed">{s.desc}</p>
+
+              {/* Selve kortkroppen, der hviler 'på' skyerne */}
+              <div className={`h-full ${s.color} p-10 rounded-3xl border flex flex-col gap-6 transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)]`}>
+                <div className="w-12 h-12 bg-white/90 backdrop-blur-md rounded-xl flex items-center justify-center shadow-lg relative z-10">
+                  {s.icon}
+                </div>
+                <h3 className="text-2xl font-black font-display uppercase tracking-tight relative z-10">{s.title}</h3>
+                <p className="text-bison-dark/60 leading-relaxed relative z-10">{s.desc}</p>
+              </div>
             </motion.div>
           ))}
         </div>
@@ -428,7 +440,7 @@ const Home = () => {
           <div className="relative z-10">
             <h2 className="text-5xl md:text-8xl font-black font-display uppercase tracking-tighter text-white leading-[0.9] mb-10">
               Klar til at starte din <br />
-              <span className="italic font-serif normal-case font-medium text-bison-blue">digitale rejse?</span>
+              <span className="italic font-serif normal-case font-medium text-bison-pink">digitale rejse?</span>
             </h2>
             <p className="text-xl text-white/60 max-w-xl mx-auto mb-12">
               Book et gratis 30-minutters strategimøde, og lad os vise dig, hvordan vi kan løfte din forretning.
