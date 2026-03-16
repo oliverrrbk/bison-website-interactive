@@ -1,15 +1,18 @@
-import React, { useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, useMotionTemplate } from 'motion/react';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, useScroll, useTransform, useMotionTemplate, AnimatePresence } from 'motion/react';
 import {
   ArrowRight,
   PenTool,
   Code,
   LineChart,
-  Quote
+  Quote,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Meteors } from '../components/ui/meteors';
 import { ModernPricingPage, PricingCardProps } from '../components/ui/animated-glassy-pricing';
+import { ContainerScroll } from '../components/ui/container-scroll-animation';
 
 const StripeDecorator = ({ vertical = false, className = "" }) => (
   <div className={`${vertical ? 'bison-stripes-vertical w-1.5 h-full' : 'bison-stripes h-1.5 w-full'} ${className}`} />
@@ -149,7 +152,7 @@ const Mission = () => {
   const scrollRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: scrollRef,
-    offset: ["start end", "end start"]
+    offset: ["start 80%", "end start"]
   });
   
   // Parallax bevægelse fra -15% til 15% af vinduets bredde (starter venstre, slutter højre)
@@ -391,44 +394,75 @@ const Home = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const [activeCaseIndex, setActiveCaseIndex] = useState(0);
+  const cases = [
+    "/case1.png",
+    "/case2.png",
+    "/case3.png",
+    "/case4.png"
+  ];
+
+  const nextCase = () => setActiveCaseIndex((prev) => (prev + 1) % cases.length);
+  const prevCase = () => setActiveCaseIndex((prev) => (prev - 1 + cases.length) % cases.length);
+
   return (
     <main>
       <Hero />
       <Services />
       <Mission />
 
-      {/* Case Preview Section */}
-      <section className="py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex justify-between items-end mb-16">
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter font-display uppercase">Udvalgte <span className="italic font-serif normal-case font-medium text-bison-brown">cases</span></h2>
-            <Link to="/cases" className="text-lg font-bold text-bison-dark hover:text-bison-brown flex items-center gap-2 transition-colors">
-              Se alle cases <ArrowRight size={20} />
-            </Link>
-          </div>
-          <div className="grid md:grid-cols-2 gap-12">
-            {[
-              { title: "Glowhaus", category: "E-commerce & UX", img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=1000" },
-              { title: "Theo Apparel", category: "Brand Identity", img: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1000" }
-            ].map((caseItem, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ scale: 1.02, y: -10 }}
-                whileTap={{ scale: 0.98 }}
-                className="group cursor-pointer"
+      {/* Case Preview Section via Container Scroll Animation */}
+      <section className="bg-white overflow-hidden relative z-20">
+        <div className="flex flex-col overflow-hidden py-4 md:py-6">
+          <ContainerScroll
+            titleComponent={
+              <div className="text-center drop-shadow-sm">
+                <h2 className="text-6xl md:text-[7rem] lg:text-[8rem] font-black tracking-tighter font-display uppercase text-bison-dark whitespace-nowrap">
+                  Udvalgte <span className="italic font-serif normal-case text-bison-brown">cases</span>
+                </h2>
+              </div>
+            }
+            leftArrow={
+              <button 
+                onClick={prevCase}
+                className="w-16 h-16 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-bison-dark/5 rounded-full flex items-center justify-center hover:scale-110 active:scale-95 transition-transform text-bison-dark hover:text-bison-brown z-50 cursor-pointer"
               >
-                <div className="aspect-video rounded-3xl overflow-hidden mb-6 relative">
-                  <img src={caseItem.img} alt={caseItem.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
-                  <div className="absolute inset-0 bg-bison-dark/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-xl">
-                      <ArrowRight className="text-bison-dark" />
-                    </div>
-                  </div>
-                </div>
-                <h3 className="text-2xl font-black font-display uppercase">{caseItem.title}</h3>
-                <p className="text-bison-dark/40 font-bold uppercase tracking-widest text-xs mt-2">{caseItem.category}</p>
-              </motion.div>
-            ))}
+                <ChevronLeft size={32} strokeWidth={2.5} />
+              </button>
+            }
+            rightArrow={
+              <button 
+                onClick={nextCase}
+                className="w-16 h-16 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-bison-dark/5 rounded-full flex items-center justify-center hover:scale-110 active:scale-95 transition-transform text-bison-dark hover:text-bison-brown z-50 cursor-pointer"
+              >
+                <ChevronRight size={32} strokeWidth={2.5} />
+              </button>
+            }
+          >
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={activeCaseIndex}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.05 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                src={cases[activeCaseIndex]}
+                alt="Udvalgt Case"
+                className="mx-auto rounded-2xl object-cover h-full w-full max-h-full object-center"
+                draggable={false}
+              />
+            </AnimatePresence>
+          </ContainerScroll>
+          
+
+          <div className="flex justify-center mt-4 md:mt-8 pb-16 relative z-30">
+            <Link 
+              to="/cases" 
+              className="px-10 py-5 rounded-full bg-bison-dark text-white font-bold tracking-wide text-lg hover:scale-105 active:scale-95 transition-all shadow-[0_8px_30px_rgb(0,0,0,0.15)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.25)] flex items-center gap-3"
+            >
+              Se alle vores cases
+              <ArrowRight size={20} />
+            </Link>
           </div>
         </div>
       </section>
