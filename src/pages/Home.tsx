@@ -159,7 +159,22 @@ const Mission = () => {
   const xScroll = useTransform(scrollYProgress, [0, 1], ["-15vw", "15vw"]);
 
   return (
-    <section ref={scrollRef} className="py-32 bg-bison-bg relative overflow-hidden">
+    <section 
+      ref={scrollRef} 
+      className="pt-56 pb-32 relative overflow-hidden bg-white"
+    >
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          backgroundImage: 'url(/cloud-bg.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+          opacity: 0.7,
+          maskImage: 'linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%)'
+        }}
+      />
       {/* Togskinner: To tværgående linjer der agerer spor */}
       <StripeDecorator className="absolute left-0 top-[20%] w-full h-2 opacity-20" />
       <StripeDecorator className="absolute left-0 bottom-[20%] w-full h-2 opacity-20" />
@@ -276,8 +291,23 @@ const SmoothLiftoff = () => {
   });
 
   return (
-    <section className="bg-[#FAF9F6] relative border-t border-black/5 overflow-hidden" id="smooth-liftoff">
-      <div className="max-w-7xl mx-auto px-6 pt-32 pb-32">
+    <section 
+      className="relative z-20 overflow-hidden bg-white" 
+      id="smooth-liftoff"
+    >
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          backgroundImage: 'url(/cloud-bg.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+          opacity: 0.7,
+          maskImage: 'linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%)'
+        }}
+      />
+      <div className="max-w-7xl mx-auto px-6 pt-56 pb-32">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-40 z-10 relative">
           <motion.h2 
@@ -350,38 +380,6 @@ const SmoothLiftoff = () => {
               textColor="#fff"
             />
           </div>
-        </div>
-
-        {/* Footer */}
-        <div className="text-center max-w-3xl mx-auto mt-40 z-10 relative">
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-5xl md:text-7xl tracking-tight mb-8 text-[#1b1b1b]"
-          >
-            We're here to <span className="italic font-serif normal-case font-semibold">help</span>
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="text-xl md:text-2xl text-black/60 font-medium leading-relaxed mb-12"
-          >
-            Our team will collect your legacy storage—from physical hard drives and film reels to digital cloud archives and outdated systems—and transforms it with AI, making everything searchable from one place in seconds.
-          </motion.p>
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <Link to="/demo" className="inline-flex items-center justify-center px-8 py-4 rounded-full border border-black/20 text-[#1b1b1b] font-medium text-lg hover:border-black transition-all duration-300">
-              Get started with Enterprise
-            </Link>
-          </motion.div>
         </div>
 
       </div>
@@ -482,7 +480,7 @@ const Home = () => {
         showAnimatedBackground={true}
       />
       {/* Final CTA Section */}
-      <section className="py-32 px-6">
+      <section className="bg-white relative z-20 py-32 px-6">
         <div className="max-w-7xl mx-auto bg-bison-dark rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden">
           <div className="relative z-10">
             <h2 className="text-5xl md:text-8xl font-black font-display uppercase tracking-tighter text-white leading-[0.9] mb-10">

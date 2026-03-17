@@ -63,46 +63,68 @@ const ShaderCanvas = () => {
       uniform float iTime;
       uniform vec2 iResolution;
       uniform vec3 uBackgroundColor;
+      
       mat2 rotate2d(float angle){ float c=cos(angle),s=sin(angle); return mat2(c,-s,s,c); }
-      float variation(vec2 v1,vec2 v2,float strength,float speed){ return sin(dot(normalize(v1),normalize(v2))*strength+iTime*speed)/100.0; }
-      vec3 paintCircle(vec2 uv,vec2 center,float rad,float width){
-        vec2 diff = center-uv;
-        float len = length(diff);
-        len += variation(diff,vec2(0.,1.),5.,2.);
-        len -= variation(diff,vec2(1.,0.),5.,2.);
-        float circle = smoothstep(rad-width,rad,len)-smoothstep(rad,rad+width,len);
-        return vec3(circle);
+      
+      float variation(vec2 v1, vec2 v2, float strength, float speed) { 
+        float l1 = length(v1);
+        if (l1 < 0.0001) return 0.0;
+        return sin(dot(v1 / l1, normalize(v2)) * strength + iTime * speed) / 100.0; 
       }
+      
+      // Paint a filled, diffuse soft orb
+      float paintDiffuseOrb(vec2 uv, vec2 center, float rad) {
+        vec2 diff = center - uv;
+        float len = length(diff);
+        
+        // Add subtle organic wobble to the edge
+        len += variation(diff, vec2(0.0, 1.0), 5.0, 2.0);
+        len -= variation(diff, vec2(1.0, 0.0), 5.0, 2.0);
+        
+        // Using 1.0 - smoothstep for a very soft, blurry radial gradient
+        return 1.0 - smoothstep(rad * 0.1, rad, len);
+      }
+
       vec3 getThemeColor(float t) {
         float st = mod(t, 3.0);
-        vec3 colGreen = vec3(178.0, 208.0, 141.0) / 255.0; // #b2d08d
-        vec3 colPink = vec3(229.0, 170.0, 216.0) / 255.0;  // #e5aad8
-        vec3 colBlue = vec3(16.0, 149.0, 237.0) / 255.0;   // #1095ed
+        // Using the colors from the USP cards (#0284c7, #db2777, #4d7c0f)
+        vec3 colBlue = vec3(2.0, 132.0, 199.0) / 255.0;
+        vec3 colPink = vec3(219.0, 39.0, 119.0) / 255.0;
+        vec3 colGreen = vec3(77.0, 124.0, 15.0) / 255.0;
         
-        if (st < 1.0) return mix(colGreen, colPink, smoothstep(0.0, 1.0, st));
-        if (st < 2.0) return mix(colPink, colBlue, smoothstep(0.0, 1.0, st - 1.0));
-        return mix(colBlue, colGreen, smoothstep(0.0, 1.0, st - 2.0));
+        if (st < 1.0) return mix(colBlue, colPink, smoothstep(0.0, 1.0, st));
+        if (st < 2.0) return mix(colPink, colGreen, smoothstep(0.0, 1.0, st - 1.0));
+        return mix(colGreen, colBlue, smoothstep(0.0, 1.0, st - 2.0));
       }
+
       void main(){
-        vec2 uv = gl_FragCoord.xy/iResolution.xy;
+        // Normalize UVs to [0, 1]
+        vec2 uv = gl_FragCoord.xy / iResolution.xy;
+        
+        // Correct aspect ratio by making UVs square but maintaining the origin
         float aspect = iResolution.x / iResolution.y;
-        uv.x *= aspect; 
-        uv.x -= (aspect - 1.0) / 2.0; // Center the circle on X
-        float mask = 0.0;
-        float radius = .28; // Gjort diameteren større
-        vec2 center = vec2(.5);
-        mask += paintCircle(uv,center,radius,.035).r;
-        mask += paintCircle(uv,center,radius-.018,.01).r;
-        mask += paintCircle(uv,center,radius+.018,.005).r;
-        vec2 v=rotate2d(iTime)*uv;
+        vec2 st = uv;
+        st.x = st.x * aspect - (aspect - 1.0) / 2.0;
+
+        // Radius for the diffuse orb - made larger for a stronger background glow
+        float radius = 0.50; 
+        vec2 center = vec2(0.5);
+
+        // Get the diffuse mask (0.0 to 1.0 depending on distance to center)
+        float mask = paintDiffuseOrb(st, center, radius);
+
+        // Modify time to be faster and start "further in" to the animation
+        float timeObj = iTime + 50.0;
+
+        // Apply rotation to the pattern inside the orb for animation (faster)
+        vec2 v = rotate2d(timeObj * 0.4) * (st - center) + center;
         
-        // Dynamisk farve baseret på tid og position
-        vec3 foregroundColor = getThemeColor(iTime * 0.4 + v.x * 0.5 + v.y * 0.5);
+        // Dynamic color based on time and position (faster)
+        vec3 foregroundColor = getThemeColor(timeObj * 0.6 + v.x * 2.5 + v.y * 2.5);
         
+        // Mix with background color using the soft mask
         vec3 color = mix(uBackgroundColor, foregroundColor, mask);
-        color = mix(color, vec3(1.0), paintCircle(uv,center,radius,.003).r);
         
-        // Gør det gennemsigtigt mod uBackgroundColor
         gl_FragColor = vec4(color, 1.0);
       }`;
 
@@ -196,8 +218,8 @@ export const PricingCard = ({
     pink: {
       bg: 'bg-bison-pink',
       text: 'text-[#d996cb]', // Lidt mørkere pink til tekst og ikoner i lys mode
-      glow: 'ring-bison-pink/60 border-bison-pink/60 shadow-[0_0_50px_-10px_rgba(229,170,216,0.6)]', // Ekstra glow
-      badgeBg: 'bg-bison-pink text-bison-dark'
+      glow: '!border-0 ring-[3px] ring-white shadow-[0_0_40px_rgba(255,255,255,0.7)] group-hover:shadow-[0_0_60px_rgba(255,255,255,1)]', // Tykkere hvid kant, ingen sort border, kraftig glow
+      badgeBg: 'bg-white text-bison-dark ring-2 ring-white shadow-[0_0_20px_rgba(255,255,255,0.7)]'
     },
     blue: {
       bg: 'bg-bison-blue',
@@ -210,36 +232,36 @@ export const PricingCard = ({
   const t = themeMap[themeColor];
 
   const cardClasses = `
-    backdrop-blur-[14px] bg-gradient-to-br rounded-2xl shadow-xl flex-1 max-w-xs px-7 py-8 flex flex-col transition-all duration-300
-    from-black/5 to-black/0 border border-black/10
-    dark:from-white/10 dark:to-white/5 dark:border-white/10 dark:backdrop-brightness-[0.91]
-    ${isPopular ? `scale-105 relative ring-2 z-10 ${t.glow}` : ''}
+    backdrop-blur-2xl bg-white/10 bg-gradient-to-br rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] flex-1 max-w-[380px] px-10 py-12 flex flex-col transition-all duration-300
+    from-white/60 to-white/20 border border-white/60 group
+    dark:from-white/20 dark:to-white/10 dark:border-white/20 dark:backdrop-brightness-[0.91]
+    ${isPopular ? `scale-105 relative z-10 ${t.glow}` : ''}
   `;
   const buttonClasses = `
-    mt-auto w-full py-2.5 rounded-xl font-bold uppercase tracking-wider text-[14px] transition-all duration-300 font-sans
+    mt-auto w-full py-4 rounded-xl font-bold uppercase tracking-wider text-[16px] transition-all duration-300 font-sans
     ${t.bg} text-black border border-black/10 shadow-sm hover:scale-105 hover:-translate-y-1 hover:shadow-xl
   `;
 
   return (
     <div className={cardClasses.trim()}>
       {isPopular && (
-        <div className={`absolute -top-4 right-4 px-3 py-1 text-[12px] font-semibold rounded-full ${t.badgeBg}`}>
+        <div className={`absolute -top-5 right-5 px-4 py-1.5 text-[14px] font-semibold rounded-full ${t.badgeBg}`}>
           Most Popular
         </div>
       )}
       <div className="mb-3">
-        <h2 className="text-[48px] font-extralight tracking-[-0.03em] text-black font-display">{planName}</h2>
-        <p className="text-[16px] text-black/70 mt-1 font-sans">{description}</p>
+        <h2 className="text-[56px] font-extralight tracking-[-0.03em] text-black font-display">{planName}</h2>
+        <p className="text-[18px] text-black/70 mt-1 font-sans">{description}</p>
       </div>
       <div className="my-6 flex items-baseline gap-2">
-        <span className="text-[48px] font-extralight text-bison-brown font-display">{price}</span>
-        <span className="text-[14px] text-black/70 font-sans">kr/md.</span>
+        <span className="text-[56px] font-extralight text-bison-brown font-display">{price}</span>
+        <span className="text-[16px] text-black/70 font-sans">kr/md.</span>
       </div>
       <div className="card-divider w-full mb-5 h-px bg-[linear-gradient(90deg,transparent,rgba(0,0,0,0.1)_50%,transparent)] dark:bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.09)_20%,rgba(255,255,255,0.22)_50%,rgba(255,255,255,0.09)_80%,transparent)]"></div>
-      <ul className="flex flex-col gap-2 text-[14px] text-black/90 mb-6 font-sans">
+      <ul className="flex flex-col gap-3 text-[16px] text-black/90 mb-8 font-sans">
         {features.map((feature, index) => (
           <li key={index} className="flex items-center gap-2">
-            <CheckIcon className={`${t.text} w-4 h-4`} /> {feature}
+            <CheckIcon className={`${t.text} w-5 h-5`} /> {feature}
           </li>
         ))}
       </ul>
@@ -281,17 +303,21 @@ export const ModernPricingPage = ({
     offset: ["start end", "end start"]
   });
   
-  // Parallax-effekt: Canvas bevæger sig fra -25% op til 25% ned, mens man scroller
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["-25%", "25%"]);
+  // Animation: Canvas starter lille og bliver større fra midten af, indtil den når sin fulde størrelse (scale 1) når man er ca. midt på sektionen.
+  const backgroundScale = useTransform(scrollYProgress, [0, 0.5], [0.2, 1]);
+  const backgroundOpacity = useTransform(scrollYProgress, [0, 0.4], [0, 1]);
 
   return (
-    <div ref={containerRef} className="bg-background text-foreground min-h-screen w-full overflow-hidden relative">
+    <div ref={containerRef} className="bg-white w-full overflow-hidden relative flex flex-col items-center justify-center">
       {showAnimatedBackground && (
-        <motion.div style={{ y: backgroundY }} className="absolute inset-0 pointer-events-none z-0">
+        <motion.div 
+          style={{ scale: backgroundScale, opacity: backgroundOpacity, transformOrigin: 'center center' }} 
+          className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center"
+        >
           <ShaderCanvas />
         </motion.div>
       )}
-      <div className="relative z-10 w-full min-h-screen flex flex-col items-center justify-center px-4 py-32">
+      <div className="relative z-10 w-full flex flex-col items-center justify-center px-4 pt-28 pb-32">
         <div className="w-full max-w-5xl mx-auto text-center mb-14">
           <h1 className="text-[48px] md:text-[64px] font-extralight leading-tight tracking-[-0.03em] text-black font-display">
             {title}
@@ -300,7 +326,7 @@ export const ModernPricingPage = ({
             {subtitle}
           </p>
         </div>
-        <div className="flex flex-col md:flex-row gap-8 md:gap-6 justify-center items-center w-full max-w-4xl relative z-20">
+        <div className="flex flex-col md:flex-row gap-8 md:gap-8 justify-center items-center w-full max-w-[1240px] relative z-20">
           {plans.map((plan) => <React.Fragment key={plan.planName}><PricingCard {...plan} /></React.Fragment>)}
         </div>
       </div>
