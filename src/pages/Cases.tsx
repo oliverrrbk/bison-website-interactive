@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, ExternalLink, Quote } from 'lucide-react';
 import { PageSkyHeader } from '../components/ui/page-sky-header';
+import { WordFadeIn } from '../components/ui/word-fade-in';
+import { FadeText } from '../components/ui/fade-text';
 
 const Cases = () => {
   useEffect(() => {
@@ -44,21 +46,26 @@ const Cases = () => {
       <PageSkyHeader />
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-block bg-bison-dark/5 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-bison-dark/60 mb-6"
-          >
-            Vores Arbejde
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-6xl md:text-8xl font-black tracking-tighter font-display uppercase leading-none mb-12"
-          >
-            Udvalgte <span className="italic font-serif normal-case font-medium text-bison-brown">cases</span>
-          </motion.h1>
+          <div className="mb-6 overflow-hidden">
+            <FadeText
+              direction="up"
+              text="Vores Arbejde"
+              className="inline-block bg-bison-dark/5 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-bison-dark/60"
+              framerProps={{ show: { transition: { delay: 1.6 } } }}
+            />
+          </div>
+          <WordFadeIn 
+            words="Udvalgte cases" 
+            className="text-6xl md:text-8xl font-black tracking-tighter font-display uppercase leading-none mb-12 text-bison-dark text-left md:text-left drop-shadow-none"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: (i: number) => ({
+                y: 0,
+                opacity: 1,
+                transition: { delay: i * 0.15 + 0.8 }, // Delay offset for the sky curtain
+              }),
+            }}
+          />
 
           <div className="grid md:grid-cols-2 gap-16">
             {cases.map((c, i) => (

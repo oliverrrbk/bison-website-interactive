@@ -13,7 +13,8 @@ import { Link } from 'react-router-dom';
 import { Meteors } from '../components/ui/meteors';
 import { ModernPricingPage, PricingCardProps } from '../components/ui/animated-glassy-pricing';
 import { ContainerScroll } from '../components/ui/container-scroll-animation';
-
+import { BlurIn } from '../components/ui/blur-in';
+import { Magnetic } from '../components/ui/magnetic';
 const StripeDecorator = ({ vertical = false, className = "" }) => (
   <div className={`${vertical ? 'bison-stripes-vertical w-1.5 h-full' : 'bison-stripes h-1.5 w-full'} ${className}`} />
 );
@@ -38,43 +39,43 @@ const Hero = () => {
         <Meteors number={28} />
       </div>
       <div className="max-w-4xl mx-auto px-6 relative z-10 w-full flex flex-col items-center text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+        <BlurIn 
+          delay={1.0}
+          duration={0.8}
           className="flex flex-col items-center"
         >
-          <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8 font-display uppercase text-white drop-shadow-lg">
+          <h1 className="text-7xl md:text-[7rem] font-black tracking-tighter leading-[0.9] mb-12 font-display uppercase text-white drop-shadow-lg">
             Den Ultimative <br />
             <span className="italic font-serif normal-case font-medium text-bison-pink drop-shadow-md">UX Oplevelse</span>
           </h1>
-          <p className="text-xl text-white/90 max-w-2xl mb-12 leading-relaxed font-medium drop-shadow-md">
+          <p className="text-2xl text-white/90 max-w-3xl mb-16 leading-relaxed font-medium drop-shadow-md">
             Vi kombinerer strategi, design og teknologi for at skabe hjemmesider, der ikke bare ser godt ud, men konverterer dine besøgende til loyale kunder.
           </p>
 
-          <motion.div
-            className="flex flex-wrap gap-4 mb-8"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            animate={{
-              y: [0, -15, 0],
-            }}
-            transition={{
-              duration: 1.5,
-              ease: "easeInOut",
-              repeat: Infinity,
-              repeatDelay: 4 // Hops every 4 seconds
-            }}
-          >
-            <Link to="/book-et-opkald" className="relative overflow-hidden bg-white text-bison-dark px-10 py-5 rounded-full text-lg font-bold flex items-center gap-2 transition-all group cursor-pointer shadow-[0_0_20px_rgba(255,255,255,0.4)] hover:shadow-[0_0_40px_rgba(255,255,255,0.8)]">
-              <span className="relative z-10 flex items-center gap-2 group-hover:gap-4 transition-all duration-300">
-                Kom i gang <ArrowRight size={20} />
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-bison-blue/20 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
-            </Link>
-          </motion.div>
-        </motion.div>
+          <Magnetic intensity={0.2} springOptions={{ bounce: 0.1 }} actionArea='global' range={200}>
+            <motion.div
+              className="flex flex-wrap gap-4 mb-8"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              animate={{
+                y: [0, -15, 0],
+              }}
+              transition={{
+                duration: 1.5,
+                ease: "easeInOut",
+                repeat: Infinity,
+                repeatDelay: 4 // Hops every 4 seconds
+              }}
+            >
+              <Link to="/book-et-opkald" className="relative group overflow-hidden bg-white text-bison-dark px-14 py-6 rounded-full text-xl font-bold flex items-center justify-center transition-all cursor-pointer shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:shadow-[0_0_50px_rgba(255,255,255,0.8)]">
+                <Magnetic intensity={0.1} springOptions={{ bounce: 0.1 }} actionArea='global' range={200}>
+                  <span className="relative z-10 inline-block pointer-events-none">Kom i gang</span>
+                </Magnetic>
+                <div className="absolute inset-0 bg-gradient-to-r from-bison-blue/20 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0 pointer-events-none" />
+              </Link>
+            </motion.div>
+          </Magnetic>
+        </BlurIn>
       </div>
     </section>
   );
@@ -187,8 +188,8 @@ const Mission = () => {
         viewport={{ once: true }}
         className="bg-white p-12 md:p-20 rounded-3xl shadow-xl relative"
       >
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-bison-dark rounded-2xl flex items-center justify-center shadow-lg rotate-3">
-          <Quote className="text-white" size={40} />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 backdrop-blur-2xl bg-bison-brown/30 border border-white/50 rounded-2xl flex items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.1)] rotate-3 hover:scale-105 hover:rotate-6 transition-all duration-300 z-20">
+          <Quote className="text-bison-brown drop-shadow-sm" size={32} />
         </div>
 
         <div className="mb-10">
@@ -456,10 +457,10 @@ const Home = () => {
           <div className="flex justify-center mt-4 md:mt-8 pb-16 relative z-30">
             <Link 
               to="/cases" 
-              className="px-10 py-5 rounded-full bg-bison-dark text-white font-bold tracking-wide text-lg hover:scale-105 active:scale-95 transition-all shadow-[0_8px_30px_rgb(0,0,0,0.15)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.25)] flex items-center gap-3"
+              className="group px-10 py-5 rounded-full backdrop-blur-2xl bg-white/10 bg-gradient-to-br from-white/60 to-white/20 border border-white/60 text-bison-brown font-black tracking-wide text-lg hover:from-white/70 hover:to-white/30 hover:scale-105 active:scale-95 transition-all shadow-[0_8px_30px_rgba(0,0,0,0.06)] flex items-center gap-3 hover:gap-5 relative z-30"
             >
               Se alle vores cases
-              <ArrowRight size={20} />
+              <ArrowRight size={20} className="transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>
         </div>
@@ -480,8 +481,18 @@ const Home = () => {
         showAnimatedBackground={true}
       />
       {/* Final CTA Section */}
-      <section className="bg-white relative z-20 py-32 px-6">
-        <div className="max-w-7xl mx-auto bg-bison-dark rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden">
+      <section className="bg-white relative z-20 pt-56 pb-32 px-6 overflow-hidden">
+        <div 
+          className="absolute inset-0 z-0 pointer-events-none"
+          style={{
+            backgroundImage: 'url(/assets/hero-bg.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center bottom',
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 25%, black 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 25%, black 100%)'
+          }}
+        />
+        <div className="max-w-7xl mx-auto bg-white/5 backdrop-blur-[40px] border border-white/20 rounded-[3rem] p-12 md:p-24 text-center relative z-10 shadow-[0_8px_30px_rgb(0,0,0,0.2)]">
           <div className="relative z-10">
             <h2 className="text-5xl md:text-8xl font-black font-display uppercase tracking-tighter text-white leading-[0.9] mb-10">
               Klar til at starte din <br />
@@ -490,15 +501,26 @@ const Home = () => {
             <p className="text-xl text-white/60 max-w-xl mx-auto mb-12">
               Book et gratis 30-minutters strategimøde, og lad os vise dig, hvordan vi kan løfte din forretning.
             </p>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="inline-block">
-              <Link to="/book-et-opkald" className="relative group overflow-hidden bg-white text-bison-dark px-12 py-5 rounded-full text-xl font-black uppercase tracking-tight shadow-2xl transition-all duration-300 flex items-center justify-center">
-                <span className="relative z-10 transition-colors group-hover:text-white duration-300">Book dit møde nu</span>
-                <div className="absolute inset-0 bg-bison-brown opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
-              </Link>
-            </motion.div>          </div>
-          <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
-            <div className="bison-stripes w-full h-full rotate-45 scale-150" />
-          </div>
+            <Magnetic
+              intensity={0.2}
+              springOptions={{ bounce: 0.1 }}
+              actionArea='global'
+              range={200}
+            >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="inline-block">
+                <Link to="/book-et-opkald" className="relative group overflow-hidden bg-white text-bison-dark px-12 py-5 rounded-full text-xl font-black uppercase tracking-tight shadow-2xl transition-all duration-300 flex items-center justify-center">
+                  <Magnetic
+                    intensity={0.1}
+                    springOptions={{ bounce: 0.1 }}
+                    actionArea='global'
+                    range={200}
+                  >
+                    <span className="relative z-10 transition-colors group-hover:text-bison-blue duration-300 inline-block pointer-events-none">Book dit møde nu</span>
+                  </Magnetic>
+                </Link>
+              </motion.div>
+            </Magnetic>          </div>
+
         </div>
       </section>
     </main>

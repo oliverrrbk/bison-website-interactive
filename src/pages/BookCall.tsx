@@ -42,9 +42,9 @@ const BookCall = () => {
 
               <div className="space-y-8 mb-12">
                 {[
-                  { icon: <Calendar className="text-bison-brown" />, title: "Gratis Strategisession", desc: "30 minutters fokuseret rådgivning." },
-                  { icon: <Video className="text-bison-brown" />, title: "Online Møde", desc: "Vi mødes via Google Meet eller Zoom." },
-                  { icon: <MessageSquare className="text-bison-brown" />, title: "Ingen Binding", desc: "Bare en god snak om dine muligheder." }
+                  { icon: <Calendar className="text-bison-green" />, title: "Gratis Strategisession", desc: "30 minutters fokuseret rådgivning." },
+                  { icon: <Video className="text-bison-pink" />, title: "Online Møde", desc: "Vi mødes via Google Meet eller Zoom." },
+                  { icon: <MessageSquare className="text-bison-blue" />, title: "Ingen Binding", desc: "Bare en god snak om dine muligheder." }
                 ].map((item, i) => (
                   <motion.div
                     key={i}
