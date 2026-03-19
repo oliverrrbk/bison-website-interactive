@@ -1,31 +1,49 @@
-import React, { useEffect } from 'react';
-import { motion } from 'motion/react';
-import { Users, Target, Zap, Heart } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ShieldCheck, Smartphone, Zap as ZapIcon, Quote, ArrowLeft, ArrowRight } from 'lucide-react';
 import { PageSkyHeader } from '../components/ui/page-sky-header';
 import { FadeText } from '../components/ui/fade-text';
+import { GrassWind } from '../components/ui/grass-wind';
 
 const About = () => {
+  const [tIndex, setTIndex] = useState<number>(0);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const values = [
-    { icon: <Target className="text-bison-brown" />, title: "Resultatorienteret", desc: "Vi måler vores succes på dine resultater. Ingen varm luft, kun data og vækst." },
-    { icon: <Zap className="text-bison-brown" />, title: "Innovation", desc: "Vi bruger de nyeste teknologier for at sikre, at din løsning er fremtidssikret." },
-    { icon: <Heart className="text-bison-brown" />, title: "Passion", desc: "Vi elsker det vi laver, og det afspejler sig i hver eneste pixel vi flytter." },
-    { icon: <Users className="text-bison-brown" />, title: "Samarbejde", desc: "Vi ser os selv som en forlængelse af dit team, ikke bare en leverandør." }
+  const testimonials = [
+    {
+      quote: "Since I started using Bison Company, I've seen a significant improvement in my online appearance. Their features have allowed me to analyze my target group efficiently. It's like having a personal design advisor.",
+      name: "Kristin Watson",
+      title: "CMO, TechFlow Global"
+    },
+    {
+      quote: "Det nye design har fuldstændig transformeret vores konvertering. Teamet formåede at oversætte vores komplekse ydelser til et simpelt og utroligt fængende univers, brugerne endelig forstår.",
+      name: "Marcus Halberg",
+      title: "Founder, Nordic Scale"
+    },
+    {
+      quote: "Bison Company leverer ikke bare flotte pixels; de bygger strategiske løsninger der kan mærkes direkte på bundlinjen. Niveauet af gennemsigtighed og eksekvering er uovertruffet.",
+      name: "Sarah Lind",
+      title: "Global CEO, Glowhaus & Partner"
+    }
   ];
+
+  const nextT = () => setTIndex((p) => (p + 1) % testimonials.length);
+  const prevT = () => setTIndex((p) => (p - 1 + testimonials.length) % testimonials.length);
 
   return (
     <main className="pt-32">
       <PageSkyHeader />
-      {/* Hero Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-7xl mx-auto text-center flex flex-col items-center">
+      
+      {/* 1. Hero Section (Kept exactly as it was) */}
+      <section className="py-20 px-6 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto text-center flex flex-col items-center mb-16 relative z-10">
           <div className="mb-6 overflow-hidden">
             <FadeText
               direction="up"
-              text="vores virksomhed."
+              text="OM BISON COMPANY"
               className="inline-block bg-bison-dark/5 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-bison-dark/60"
               framerProps={{ show: { transition: { delay: 0.8 } } }}
             />
@@ -34,12 +52,12 @@ const About = () => {
           <h1 className="text-6xl md:text-8xl font-black tracking-tighter font-display uppercase leading-[0.9] mb-8 w-full">
             <FadeText
               direction="right"
-              text="Vi bygger fremtidens"
+              text="VI BYGGER FREMTIDENS"
               framerProps={{ show: { transition: { delay: 1.0 } } }}
             />
             <FadeText
               direction="down"
-              text="digitale oplevelser."
+              text="digitale oplevelser"
               className="italic font-serif normal-case font-medium text-bison-brown"
               framerProps={{ show: { transition: { delay: 1.2 } } }}
             />
@@ -56,132 +74,370 @@ const About = () => {
         </div>
       </section>
 
-      {/* Team Image Section */}
-      <section className="px-6 mb-32">
-        <div className="max-w-7xl mx-auto aspect-[21/9] rounded-[3rem] overflow-hidden shadow-2xl relative">
-          <img
-            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=2000"
-            alt="Vores team i arbejde"
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
+      {/* IMAGE 1: Large Team Image with stylized background block */}
+      <section className="px-6 mb-32 relative z-10 -mt-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="max-w-5xl mx-auto relative"
+        >
+          {/* White glass effect block */}
+          <div className="absolute top-10 -left-6 -right-6 bottom-[-2rem] bg-white/40 backdrop-blur-xl border border-white/50 rounded-[2.5rem] -z-10 shadow-[0_30px_60px_rgba(0,0,0,0.05)]" />
+          
+          {/* Colored Geometric shapes */}
+          <motion.div 
+            animate={{ rotate: 360, y: [-10, 10, -10] }} 
+            transition={{ rotate: { duration: 30, repeat: Infinity, ease: "linear" }, y: { duration: 5, repeat: Infinity, ease: "easeInOut" } }}
+            className="absolute -left-16 top-0 w-24 h-24 border-[3px] border-bison-pink/80 rounded-lg rotate-12 -z-20 shadow-sm" 
           />
-          <div className="absolute inset-0 bg-bison-dark/20" />
-        </div>
+          <motion.div 
+            animate={{ rotate: -360, x: [-10, 10, -10] }} 
+            transition={{ rotate: { duration: 40, repeat: Infinity, ease: "linear" }, x: { duration: 6, repeat: Infinity, ease: "easeInOut" } }}
+            className="absolute -right-16 bottom-16 w-32 h-32 rounded-full border-[3px] border-bison-blue/80 -z-20 border-dashed shadow-sm" 
+          />
+          <motion.div 
+            animate={{ y: [0, -15, 0] }} 
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute left-1/4 -bottom-10 w-16 h-16 bg-bison-green/50 rounded-full blur-[14px] -z-20" 
+          />
+
+          <div className="aspect-[21/9] md:aspect-[16/7] rounded-3xl overflow-hidden shadow-xl relative bg-bison-dark">
+            <img
+              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=2000"
+              alt="Vores team i arbejde"
+              className="w-full h-full object-cover opacity-95 transition-transform duration-1000 hover:scale-105"
+              referrerPolicy="no-referrer"
+            />
+          </div>
+        </motion.div>
       </section>
 
-      {/* Values & Team Section */}
-      <section className="py-32 bg-white px-6 relative">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-16 lg:gap-24">
-            
-            {/* Sticky Left Column: Values & Foundation */}
-            <div className="lg:col-span-5 lg:sticky lg:top-40 self-start">
-              <h2 className="text-5xl font-black font-display uppercase tracking-tighter leading-tight mb-8">
-                Vores værdier er <br />
-                <span className="italic font-serif normal-case font-medium text-bison-brown">vores fundament</span>
-              </h2>
-              <p className="text-lg text-bison-dark/60 mb-10 leading-relaxed">
-                Vi tror på ærlighed, gennemsigtighed og hårdt arbejde. Når vi ikke sidder bag computeren, tager vi det hele ekstremt personligt, for vi er investeret i din succes - helt ind til benet.
-              </p>
-              <div className="bison-stripes w-24 h-2 rounded-full mb-12" />
+      {/* IMAGE 2: Values Cards Grid + Wide Stats Banner */}
+      <section className="py-24 px-6 relative z-10">
+        <div className="max-w-[70rem] mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-20"
+          >
+            <h2 className="text-4xl md:text-5xl font-black font-display uppercase tracking-tight mb-4 text-bison-dark">
+              KERNEVÆRDIER <span className="italic font-serif normal-case font-medium text-bison-brown">i fokus</span>
+            </h2>
+            <p className="text-sm md:text-base text-bison-dark/60 max-w-xl mx-auto font-bold uppercase tracking-widest">
+              Gennemtestede metoder og prisvindende resultater
+            </p>
+          </motion.div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {values.map((v, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
-                    whileHover={{ scale: 1.05, y: -5, boxShadow: "0 20px 40px -10px rgba(0,0,0,0.1)" }}
-                    whileTap={{ scale: 0.95 }}
-                    className="p-6 bg-bison-bg rounded-3xl border border-bison-dark/5 cursor-pointer transition-colors duration-300"
-                  >
-                    <div className="mb-3 scale-90 origin-left">{v.icon}</div>
-                    <h3 className="text-lg font-black font-display uppercase mb-2 tracking-tight">{v.title}</h3>
-                    <p className="text-xs text-bison-dark/60 leading-relaxed">{v.desc}</p>
-                  </motion.div>
+          {/* New 3 USPs replacing 5 cards - Floating Background Icons */}
+          <div className="flex flex-col md:flex-row gap-12 md:gap-8 mb-32">
+            {[
+              { title: "Kompromisløs Kvalitet", desc: "Dine midler sikres via banebrydende systemer og pålidelige web-partnere.", icon: <ShieldCheck size={280} className="text-bison-green" strokeWidth={1} /> },
+              { title: "Sikker og Stabil", desc: "Vi beskytter dit brand med robuste løsninger og state-of-the-art performance.", icon: <ZapIcon size={280} className="text-bison-pink" strokeWidth={1} /> },
+              { title: "Mange Metoder", desc: "Vi prioriterer din sikkerhed ved brug af dyb design-psykologi og dataanalyse.", icon: <Smartphone size={280} className="text-bison-blue" strokeWidth={1} /> }
+            ].map((f, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="flex-1 flex flex-col items-center text-center group relative overflow-visible py-8"
+              >
+                {/* Large Background Icon */}
+                <motion.div 
+                  animate={{ y: [-8, 8, -8], rotate: [-4, 4, -4] }}
+                  transition={{ duration: 6 + i, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
+                  className="absolute inset-0 flex justify-center items-center pointer-events-none opacity-40 -z-10 transition-transform duration-700 ease-out group-hover:scale-110 group-hover:-translate-y-2 group-hover:opacity-[0.55]"
+                >
+                  {f.icon}
+                </motion.div>
+
+                {/* Text Content */}
+                <div className="relative z-10 px-4 mt-10">
+                  <h4 className="font-black font-display uppercase text-xl md:text-2xl tracking-tight text-bison-dark mb-3 drop-shadow-md bg-white/50 md:bg-transparent rounded-lg">{f.title}</h4>
+                  <p className="text-sm text-bison-dark/60 font-bold leading-relaxed max-w-xs mx-auto drop-shadow-md bg-white/50 md:bg-transparent rounded-lg py-1 px-2">{f.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Wide Stats Banner with Glassmorphism and Pulsing BG */}
+          <div className="relative">
+            {/* Background Pulsing Lights */}
+            <div className="absolute inset-0 pointer-events-none flex justify-center items-center overflow-visible">
+              <motion.div
+                animate={{ 
+                  scale: [1, 1.1, 1],
+                  x: [-30, 30, -30],
+                  y: [-10, 10, -10]
+                }}
+                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute left-0 top-1/2 -translate-y-1/2 w-64 h-64 md:w-96 md:h-96 bg-bison-green/30 rounded-full blur-[80px] md:blur-[100px] mix-blend-multiply"
+              />
+              <motion.div
+                animate={{ 
+                  scale: [1.1, 1, 1.1],
+                  x: [30, -30, 30],
+                  y: [10, -10, 10]
+                }}
+                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 md:w-96 md:h-96 bg-bison-pink/30 rounded-full blur-[80px] md:blur-[100px] mix-blend-multiply"
+              />
+              <motion.div
+                animate={{ 
+                  scale: [1, 1.2, 1],
+                  opacity: [0.4, 0.7, 0.4]
+                }}
+                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-72 h-72 md:w-[28rem] md:h-[28rem] bg-bison-blue/30 rounded-full blur-[80px] md:blur-[100px] mix-blend-multiply"
+              />
+            </div>
+
+            {/* Glassmorphism Container */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="relative z-10 w-full bg-white/40 backdrop-blur-2xl border border-white/60 rounded-[2.5rem] shadow-[0_20px_40px_rgba(0,0,0,0.05)] p-10 md:p-16 flex flex-col lg:flex-row items-center justify-between gap-12"
+            >
+              <div className="lg:w-1/3 text-center lg:text-left">
+                <h3 className="text-3xl md:text-4xl font-black font-display uppercase tracking-tight text-bison-dark leading-tight">
+                  Vi sikrer din <br />
+                  digitale <br />
+                  <span className="text-bison-brown italic font-serif normal-case font-medium">ekspansion</span>
+                </h3>
+              </div>
+              <div className="lg:w-2/3 flex flex-wrap sm:flex-nowrap justify-center lg:justify-end gap-12 w-full">
+                {[
+                  { val: "98 %", label: "Happy Clients" },
+                  { val: "30%", label: "Decrease Expenses" },
+                  { val: "27.000+", label: "Timer Sparet" }
+                ].map((stat, idx) => (
+                  <div key={idx} className="text-center flex-1">
+                    <div className="text-5xl md:text-6xl font-black font-display text-bison-dark mb-2 tracking-tighter">{stat.val}</div>
+                    <div className="text-[10px] font-bold uppercase tracking-widest text-bison-dark/60">{stat.label}</div>
+                  </div>
                 ))}
               </div>
-            </div>
-
-            {/* Scrolling Right Column: The Team */}
-            <div className="lg:col-span-7 flex flex-col space-y-32">
-              {[
-                {
-                  name: "Oliver",
-                  role: "Creative Director & Co-Founder",
-                  desc: "Med en dybtfølt passion for design, farver og brugeradfærd sikrer Oliver, at jeres brand ikke bare ser unikt ud på overfladen, men konverterer helt rent ned igennem tragten. Han fanger det usynlige rum mellem brugernes forventninger og brandets løfter.",
-                  img: "https://images.unsplash.com/photo-1548690312-e3b507d8c110?auto=format&fit=crop&q=80&w=1000"
-                },
-                {
-                  name: "Emil",
-                  role: "Tech Lead & Co-Founder",
-                  desc: "Hjernen nede i maskinrummet. Emil sørger minutiøst for, at alt backend, frameworks og performance spiller 100% sammen med designernes skøre påfund. Alt fra en robust arkitektur til lynhurtige loadingtider på alle tænkelige skærme ligger fast i hans kode.",
-                  img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000"
-                },
-                {
-                  name: "Mathias",
-                  role: "UX Strategist & Partner",
-                  desc: "Mathias er stædig. Han dykker uophørligt ned i jeres data, heatmaps og formler, indtil han kan forstå jeres kernebrugere ud og ind. For ham er den gode løsning ikke tilfældigt gætværk eller løse mavefornemmelser - det er den rendyrkede disciplin af datadrevet viden.",
-                  img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=1000"
-                }
-              ].map((member, idx) => (
-                <motion.div 
-                  key={idx}
-                  initial={{ opacity: 0, scale: 0.95, y: 50 }}
-                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.7, ease: "easeOut" }}
-                  className="flex flex-col group"
-                >
-                  <div className="aspect-[3/4] md:aspect-square w-full rounded-[2.5rem] overflow-hidden mb-8 shadow-2xl relative">
-                    <img 
-                      src={member.img} 
-                      alt={member.name}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-bison-dark/10 transition-opacity duration-500 group-hover:opacity-0 pointer-events-none" />
-                    
-                    {/* Glassy nameplate overlay on hover */}
-                    <div className="absolute bottom-6 left-6 right-6 backdrop-blur-xl bg-bison-dark/80 border border-white/10 p-6 rounded-3xl flex justify-between items-end shadow-xl transition-all duration-500 translate-y-4 opacity-0 group-hover:opacity-100 group-hover:translate-y-0">
-                      <div>
-                        <h3 className="text-2xl font-black font-display tracking-tight text-white mb-1 uppercase drop-shadow-md">{member.name}</h3>
-                        <p className="text-bison-brown font-bold tracking-widest text-xs uppercase drop-shadow-md">{member.role}</p>
-                      </div>
-                      <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20 text-white shadow-inner">
-                        <Users size={16} />
-                      </div>
-                    </div>
-                  </div>
-                  <h3 className="text-3xl font-black font-display uppercase tracking-tight mb-2 group-hover:text-bison-brown transition-colors">{member.name}</h3>
-                  <p className="text-bison-dark/40 font-bold uppercase tracking-widest text-sm mb-6 pb-6 border-b border-bison-dark/10 inline-block">{member.role}</p>
-                  <p className="text-xl text-bison-dark/60 leading-relaxed font-medium max-w-lg">{member.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-32 bg-bison-dark text-white px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-          {[
-            { label: "Projekter", val: "150+" },
-            { label: "Kunder", val: "80+" },
-            { label: "Kaffekopper", val: "12k" },
-            { label: "Awards", val: "12" }
-          ].map((s, i) => (
-            <div key={i}>
-              <div className="text-5xl md:text-7xl font-black font-display uppercase tracking-tighter mb-2">{s.val}</div>
-              <div className="text-sm font-bold uppercase tracking-widest text-white/40">{s.label}</div>
-            </div>
-          ))}
+      {/* IMAGE 3: Executive Team */}
+      <section className="py-32 bg-white px-6">
+        <div className="max-w-[70rem] mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-8">
+            <motion.h2 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-[2.7rem] font-black font-display uppercase tracking-tight text-bison-dark"
+            >
+              Executive Team
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="text-bison-dark/60 max-w-md text-sm font-bold leading-relaxed text-left md:text-right"
+            >
+              Vores resultater stammer fra en dedikeret kollektiv indsats, hvor vi kombinerer vores fagligheder for at skabe uovertrufne løsninger.
+            </motion.p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Oliver Rørbæk",
+                role: "Creative Director",
+                desc: "Med en dybtfølt passion for design og brugeradfærd sikrer Oliver, at jeres brand konverterer rent hele vejen.",
+                img: "https://images.unsplash.com/photo-1548690312-e3b507d8c110?auto=format&fit=crop&q=80&w=1000",
+                color: "bg-bison-green"
+              },
+              {
+                name: "Emil Nielsen",
+                role: "Tech Lead",
+                desc: "Hjernen i maskinrummet. Emil sørger for, at performance og frameworks spiller 100% sammen med designet.",
+                img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000",
+                color: "bg-bison-pink"
+              },
+              {
+                name: "Mathias Holm",
+                role: "UX Strategist",
+                desc: "Mathias dykker ned i data og heatmaps for at forstå jeres brugere ud og ind.",
+                img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=1000",
+                color: "bg-bison-blue"
+              }
+            ].map((member, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.15 }}
+                className="group cursor-pointer relative"
+              >
+                <div className={`aspect-[4/5] rounded-2xl overflow-hidden mb-5 relative ${member.color}/20`}>
+                  <img 
+                    src={member.img} 
+                    alt={member.name} 
+                    className="w-full h-full object-cover object-center mix-blend-normal opacity-95 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-100" 
+                    referrerPolicy="no-referrer"
+                  />
+                  {/* Hover Description Overlay */}
+                  <div className="absolute inset-0 bg-bison-dark/80 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8">
+                    <p className="text-white text-sm leading-relaxed font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100">
+                      {member.desc}
+                    </p>
+                  </div>
+                </div>
+                <h3 className="text-xl font-black font-display uppercase tracking-tight text-bison-dark mb-1">{member.name}</h3>
+                <p className="text-xs font-bold uppercase tracking-widest text-bison-dark/60">{member.role}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
+
+      {/* IMAGE 4: Vision, Mission, Story Stack */}
+      <section className="py-24 bg-[#fbfbf9] px-6 border-t border-bison-dark/5">
+        <div className="max-w-[70rem] mx-auto">
+
+          {/* Stacked Blocks - Unfolding Animation with Characteristic Colors */}
+          <div className="flex flex-col relative">
+            {[
+              { 
+                title: "Vision", 
+                text: "At revolutionere den digitale tilstedeværelse for ambitiøse virksomheder med innovative løsninger. Vi sætter nye standarder for webdesign ved konstant at udforske grænsen mellem form og funktion.",
+                bg: "bg-bison-green",
+                zIndex: "z-30" 
+              },
+              { 
+                title: "Mission", 
+                text: "Opdag fremtiden indenfor webløsninger med tæt samarbejde og stor forretningsforståelse. Vores altomfattende suite af services rykker dine konverteringer og bringer effektivitet til fingerspidserne.",
+                bg: "bg-bison-pink",
+                zIndex: "z-20"
+              },
+              { 
+                title: "Story", 
+                text: "Træd i front indenfor visuel innovation. Bison Company startede med et ønske om at forene smukt design og rå performance, og i dag leverer vi nogle af de mest konverterende løsninger.",
+                bg: "bg-bison-blue",
+                zIndex: "z-10"
+              }
+            ].map((block, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: -40 * (i + 1) }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ 
+                  delay: i * 0.2, 
+                  duration: 0.8, 
+                  ease: [0.22, 1, 0.36, 1] 
+                }}
+                className={`${block.bg} px-10 py-12 md:p-16 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-32 w-full shadow-lg rounded-t-[2.5rem] ${i === 2 ? 'rounded-b-[2.5rem] mb-0' : '-mb-10'} ${block.zIndex} border-t border-white/40 relative z-10`}
+              >
+                <div className="md:w-[25%] lg:w-1/4">
+                  <h3 className="text-4xl md:text-[2.6rem] font-black font-display uppercase tracking-tight text-[#163321]">{block.title}</h3>
+                </div>
+                <div className="md:w-[75%] lg:w-3/4">
+                  <p className="text-[#133320]/80 font-medium leading-relaxed text-sm md:text-base lg:pr-10">
+                    {block.text}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* IMAGE 5: Light Testimonial Section */}
+      <section className="py-24 md:py-32 bg-[#fbfbf9] px-6 text-bison-dark overflow-hidden relative">
+        <div className="max-w-[70rem] mx-auto relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex justify-between items-start mb-16 md:mb-20"
+          >
+            {/* "What they say" on the left, with animated underline */}
+            <div className="flex flex-col items-start gap-2">
+              <h3 className="text-3xl md:text-5xl lg:text-[4rem] font-black font-display uppercase tracking-tighter leading-[0.9] text-bison-dark opacity-95">What they say</h3>
+              <motion.div 
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+                className="h-1.5 md:h-2.5 bg-bison-blue w-full rounded-full origin-left mt-1"
+              />
+            </div>
+            
+            {/* Quote on the right */}
+            <div className="flex items-center">
+              <Quote className="text-bison-green opacity-90 hidden md:block" size={64} strokeWidth={2.5} />
+              <Quote className="text-bison-green opacity-90 md:hidden" size={40} strokeWidth={2.5} />
+            </div>
+          </motion.div>
+          
+          <div className="min-h-[16rem] md:min-h-[14rem] relative">
+            <AnimatePresence mode="wait">
+              <motion.p 
+                key={tIndex}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+                className="text-2xl md:text-3xl lg:text-4xl font-medium font-serif italic text-bison-dark/70 leading-relaxed max-w-[65rem] tracking-tight"
+              >
+                "{testimonials[tIndex].quote}"
+              </motion.p>
+            </AnimatePresence>
+          </div>
+          
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="border-t border-bison-dark/10 pt-10 flex flex-col md:flex-row gap-6 justify-between items-center"
+          >
+            {/* Reviewer info */}
+            <div className="flex flex-col w-full md:w-auto text-center md:text-left h-16 justify-center">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={tIndex}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <p className="font-black font-display uppercase tracking-tight text-xl text-bison-dark mb-1">{testimonials[tIndex].name}</p>
+                  <p className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-bison-dark/40">{testimonials[tIndex].title}</p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+            
+            {/* Clean arrow buttons without glass background */}
+            <div className="flex gap-6 w-full md:w-auto justify-center md:justify-end cursor-pointer">
+              <button onClick={prevT} aria-label="Forrige" className="flex items-center justify-center hover:scale-125 hover:-translate-x-2 transition-all text-bison-blue opacity-90 px-2 py-1">
+                <ArrowLeft size={32} strokeWidth={2.5} />
+              </button>
+              <button onClick={nextT} aria-label="Næste" className="flex items-center justify-center hover:scale-125 hover:translate-x-2 transition-all text-bison-pink opacity-90 px-2 py-1">
+                <ArrowRight size={32} strokeWidth={2.5} />
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Grass Animation separating footer */}
+      <div className="bg-[#fbfbf9] pt-24 md:pt-48">
+        <GrassWind />
+      </div>
     </main>
   );
 };

@@ -6,6 +6,7 @@ import {
   Code,
   LineChart,
   Quote,
+  Megaphone,
   ChevronLeft,
   ChevronRight
 } from 'lucide-react';
@@ -119,10 +120,10 @@ const Services = () => {
           {services.map((s, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
+              initial={{ x: -50, y: -50 }}
+              whileInView={{ x: 0, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: i * 0.05, duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ y: -10, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="group relative isolate"
@@ -134,7 +135,7 @@ const Services = () => {
               </div>
 
               {/* Selve kortkroppen, der hviler 'på' skyerne */}
-              <div className={`h-full ${s.color} p-10 rounded-3xl border flex flex-col gap-6 transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)]`}>
+              <div className={`h-full ${s.color} p-10 rounded-3xl border flex flex-col gap-6 transition-shadow duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.04)] group-hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)]`}>
                 <div className="w-12 h-12 bg-white/90 backdrop-blur-md rounded-xl flex items-center justify-center shadow-lg relative z-10">
                   {s.icon}
                 </div>
@@ -188,8 +189,16 @@ const Mission = () => {
         viewport={{ once: true }}
         className="bg-white p-12 md:p-20 rounded-3xl shadow-xl relative"
       >
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 backdrop-blur-2xl bg-bison-brown/30 border border-white/50 rounded-2xl flex items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.1)] rotate-3 hover:scale-105 hover:rotate-6 transition-all duration-300 z-20">
-          <Quote className="text-bison-brown drop-shadow-sm" size={32} />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 backdrop-blur-2xl bg-bison-brown/30 border border-white/50 rounded-2xl flex items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.1)] rotate-3 hover:scale-105 hover:rotate-6 transition-all duration-300 z-20 group">
+          <div className="relative flex items-center justify-center -rotate-[24deg] translate-y-0.5">
+            <Megaphone className="text-white drop-shadow-sm relative z-10" size={32} />
+            {/* Single animated, flattish sound wave, centered on the mouth */}
+            <motion.div 
+              animate={{ opacity: [0, 0.8, 0], scale: [0.6, 1.1], x: [0, 10] }} 
+              transition={{ duration: 3.5, repeat: Infinity, ease: "easeOut" }}
+              className="absolute -right-1 top-1/2 -translate-y-[65%] w-2 h-5 rounded-[100%] border-r-[2.5px] border-white/80 z-0"
+            />
+          </div>
         </div>
 
         <div className="mb-10">

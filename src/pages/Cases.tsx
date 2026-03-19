@@ -4,6 +4,7 @@ import { ArrowRight, ExternalLink, Quote } from 'lucide-react';
 import { PageSkyHeader } from '../components/ui/page-sky-header';
 import { WordFadeIn } from '../components/ui/word-fade-in';
 import { FadeText } from '../components/ui/fade-text';
+import { GrassWind } from '../components/ui/grass-wind';
 
 const Cases = () => {
   useEffect(() => {
@@ -44,7 +45,7 @@ const Cases = () => {
   return (
     <main className="pt-32">
       <PageSkyHeader />
-      <section className="py-20 px-6">
+      <section className="py-20 px-6 relative z-10">
         <div className="max-w-7xl mx-auto">
           <div className="mb-6 overflow-hidden">
             <FadeText
@@ -105,24 +106,10 @@ const Cases = () => {
         </div>
       </section>
 
-      {/* Testimonial Section */}
-      <section className="py-32 bg-bison-bg px-6">
-        <div className="max-w-7xl mx-auto text-center">
-          <Quote className="mx-auto text-bison-brown mb-8" size={60} />
-          <h2 className="text-3xl md:text-5xl font-serif italic text-bison-dark/80 max-w-4xl mx-auto leading-tight mb-12">
-            "Samarbejdet med Bison Company har været en game-changer for os. Deres øje for detaljer og fokus på brugeroplevelsen er i en klasse for sig selv."
-          </h2>
-          <div className="flex items-center justify-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-bison-dark overflow-hidden">
-              <img src="https://picsum.photos/seed/client/100/100" alt="Client" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-            </div>
-            <div className="text-left">
-              <p className="font-black font-display uppercase text-sm">Morten Jensen</p>
-              <p className="text-xs text-bison-dark/40 font-bold uppercase tracking-widest">Marketing Manager, Nordic Tech</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Grass Animation separating footer */}
+      <div className="pt-24 md:pt-48">
+        <GrassWind />
+      </div>
     </main>
   );
 };

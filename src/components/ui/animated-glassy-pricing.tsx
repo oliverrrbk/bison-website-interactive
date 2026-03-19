@@ -317,7 +317,7 @@ export const ModernPricingPage = ({
           <ShaderCanvas />
         </motion.div>
       )}
-      <div className="relative z-10 w-full flex flex-col items-center justify-center px-4 pt-28 pb-32">
+      <div className="relative z-10 w-full flex flex-col items-center justify-center px-4 pt-40 md:pt-48 pb-48 md:pb-64">
         <div className="w-full max-w-5xl mx-auto text-center mb-14">
           <h1 className="text-[48px] md:text-[64px] font-extralight leading-tight tracking-[-0.03em] text-black font-display">
             {title}

@@ -5,6 +5,7 @@ import { PageSkyHeader } from '../components/ui/page-sky-header';
 import { BlurredStagger } from '../components/ui/blurred-stagger-text';
 import { TextEffect } from '../components/ui/text-effect';
 import { FadeText } from '../components/ui/fade-text';
+import { GrassWind } from '../components/ui/grass-wind';
 
 const Blog = () => {
   useEffect(() => {
@@ -210,7 +211,7 @@ const Blog = () => {
 
       {/* Newsletter Section */}
       <section className="py-32 px-6">
-        <div className="max-w-5xl mx-auto bg-bison-blue/20 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
+        <div className="max-w-5xl mx-auto backdrop-blur-[40px] bg-white/40 bg-gradient-to-br from-white/60 to-white/20 border border-white/60 shadow-[0_8px_30px_rgba(0,0,0,0.08)] rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
           <h2 className="text-4xl md:text-5xl font-black font-display uppercase tracking-tighter mb-6">Få de nyeste insights direkte i din indbakke</h2>
           <p className="text-lg text-bison-dark/60 mb-10 max-w-xl mx-auto">Vi sender kun guld. Ingen spam, kun viden der hjælper din forretning med at vokse.</p>
           <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
@@ -227,23 +228,13 @@ const Blog = () => {
               Tilmeld
             </motion.button>
           </form>
-          {/* Animated snake border */}
+          {/* Animated diffuse rainbow border */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
-            <rect
-              x="0"
-              y="0"
-              width="100%"
-              height="100%"
-              rx="48"
-              ry="48"
-              fill="none"
-              stroke="url(#snake-gradient)"
-              strokeWidth="10"
-              pathLength="100"
-              strokeDasharray="25 75"
-              className="animate-snake"
-            />
             <defs>
+              <filter id="soft-glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="6" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
               <linearGradient id="snake-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="var(--color-bison-pink)" />
                 <stop offset="25%" stopColor="var(--color-bison-pink)" />
@@ -255,9 +246,31 @@ const Blog = () => {
                 <stop offset="100%" stopColor="var(--color-bison-green)" />
               </linearGradient>
             </defs>
+            <motion.rect
+              x="2"
+              y="2"
+              width="calc(100% - 4px)"
+              height="calc(100% - 4px)"
+              rx="46"
+              ry="46"
+              fill="none"
+              stroke="url(#snake-gradient)"
+              strokeWidth="8"
+              pathLength="100"
+              strokeDasharray="30 70"
+              filter="url(#soft-glow)"
+              strokeLinecap="round"
+              animate={{ strokeDashoffset: [100, 0] }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            />
           </svg>
         </div>
       </section>
+
+      {/* Grass Animation separating footer */}
+      <div className="pt-16 md:pt-24">
+        <GrassWind />
+      </div>
     </main>
   );
 };
