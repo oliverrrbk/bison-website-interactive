@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Calendar, Clock, Video, MessageSquare } from 'lucide-react';
+import { Calendar, Clock, Video, MessageSquare, ArrowRight } from 'lucide-react';
 import { PageSkyHeader } from '../components/ui/page-sky-header';
 
 const BookCall = () => {
@@ -74,20 +74,20 @@ const BookCall = () => {
 
               <div className="p-8 bg-bison-bg rounded-3xl border border-bison-dark/5">
                 <h3 className="text-xl font-black font-display uppercase mb-4 tracking-tight">Hvad sker der nu?</h3>
-                <ol className="space-y-4">
-                  <li className="flex gap-3 text-sm text-bison-dark/60">
-                    <span className="w-6 h-6 bg-bison-dark text-white rounded-full flex items-center justify-center text-[10px] font-bold shrink-0">1</span>
+                <ul className="space-y-4">
+                  <li className="flex gap-3 text-sm text-bison-dark/60 items-start">
+                    <ArrowRight size={18} className="text-bison-brown shrink-0 mt-0.5" />
                     Du vælger et tidspunkt der passer dig i kalenderen.
                   </li>
-                  <li className="flex gap-3 text-sm text-bison-dark/60">
-                    <span className="w-6 h-6 bg-bison-dark text-white rounded-full flex items-center justify-center text-[10px] font-bold shrink-0">2</span>
+                  <li className="flex gap-3 text-sm text-bison-dark/60 items-start">
+                    <ArrowRight size={18} className="text-bison-brown shrink-0 mt-0.5" />
                     Du modtager en bekræftelse og et link til mødet.
                   </li>
-                  <li className="flex gap-3 text-sm text-bison-dark/60">
-                    <span className="w-6 h-6 bg-bison-dark text-white rounded-full flex items-center justify-center text-[10px] font-bold shrink-0">3</span>
+                  <li className="flex gap-3 text-sm text-bison-dark/60 items-start">
+                    <ArrowRight size={18} className="text-bison-brown shrink-0 mt-0.5" />
                     Vi tager en snak om dine mål og lægger en plan.
                   </li>
-                </ol>
+                </ul>
               </div>
             </div>
 

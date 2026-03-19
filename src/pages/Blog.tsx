@@ -6,7 +6,6 @@ import { BlurredStagger } from '../components/ui/blurred-stagger-text';
 import { TextEffect } from '../components/ui/text-effect';
 import { FadeText } from '../components/ui/fade-text';
 import { GrassWind } from '../components/ui/grass-wind';
-import { Meteors } from '../components/ui/meteors';
 
 const Blog = () => {
   useEffect(() => {
@@ -170,10 +169,10 @@ const Blog = () => {
             {posts.map((post, i) => (
               <motion.article
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
+                initial={{ opacity: 0, x: -80, filter: "blur(15px)" }}
+                whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: 1.1 + (i * 0.8), duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ y: -10, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setSelectedPost(post)}
@@ -214,7 +213,7 @@ const Blog = () => {
       {/* Newsletter Section */}
       <section className="py-32 px-6">
         <div 
-          className="max-w-5xl mx-auto bg-white/40 backdrop-blur-2xl border border-white/60 shadow-[0_8px_40px_rgba(0,0,0,0.03)] rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden group transition-all duration-500"
+          className="max-w-5xl mx-auto bg-white/40 backdrop-blur-2xl border border-white/60 shadow-[0_8px_40px_rgba(0,0,0,0.03)] rounded-[3rem] p-12 md:p-20 text-center relative group transition-all duration-500"
         >
           {/* Internal Content wrapping */}
           <div className="relative z-10">
@@ -235,15 +234,14 @@ const Blog = () => {
               </motion.button>
             </form>
           </div>
-          {/* Background Meteor Effect */}
-          <div 
-            className="absolute inset-0 z-0 pointer-events-none"
-            style={{
-              maskImage: 'linear-gradient(195deg, black 35%, transparent 44%)',
-              WebkitMaskImage: 'linear-gradient(195deg, black 35%, transparent 44%)'
-            }}
-          >
-            <Meteors number={28} />
+          {/* Background Ambient Blobs */}
+          <div className="absolute inset-0 z-[-1] pointer-events-none opacity-60 transition-all duration-1000 group-hover:opacity-100 saturate-150">
+            {/* Pink - Top Left corner */}
+            <div className="absolute -top-[10%] -left-[5%] w-[40%] h-[60%] rounded-full blur-[60px] bg-bison-pink animate-cloud-1 [animation-play-state:paused] group-hover:[animation-play-state:running] transition-transform duration-1000 group-hover:translate-x-[40%] group-hover:translate-y-[20%] group-hover:scale-75" />
+            {/* Green - Bottom Right corner */}
+            <div className="absolute -bottom-[10%] -right-[5%] w-[40%] h-[60%] rounded-full blur-[60px] bg-bison-green animate-cloud-2 [animation-play-state:paused] group-hover:[animation-play-state:running] transition-transform duration-1000 group-hover:-translate-x-[40%] group-hover:-translate-y-[20%] group-hover:scale-75" />
+            {/* Blue - Top Right / Middle Right area */}
+            <div className="absolute top-[10%] -right-[10%] w-[35%] h-[50%] rounded-full blur-[60px] bg-bison-blue animate-cloud-1 [animation-play-state:paused] group-hover:[animation-play-state:running] transition-transform duration-1000 group-hover:-translate-x-[60%] group-hover:translate-y-[10%] group-hover:scale-75" style={{ animationDirection: 'reverse', animationDuration: '20s' }} />
           </div>
         </div>
       </section>
