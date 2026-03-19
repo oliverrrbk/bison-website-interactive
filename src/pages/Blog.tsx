@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Clock, User, X } from 'lucide-react';
 import { PageSkyHeader } from '../components/ui/page-sky-header';
@@ -6,6 +6,7 @@ import { BlurredStagger } from '../components/ui/blurred-stagger-text';
 import { TextEffect } from '../components/ui/text-effect';
 import { FadeText } from '../components/ui/fade-text';
 import { GrassWind } from '../components/ui/grass-wind';
+import { Meteors } from '../components/ui/meteors';
 
 const Blog = () => {
   useEffect(() => {
@@ -13,6 +14,7 @@ const Blog = () => {
   }, []);
 
   const [selectedPost, setSelectedPost] = useState<any>(null);
+
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -211,66 +213,43 @@ const Blog = () => {
 
       {/* Newsletter Section */}
       <section className="py-32 px-6">
-        <div className="max-w-5xl mx-auto backdrop-blur-[40px] bg-white/40 bg-gradient-to-br from-white/60 to-white/20 border border-white/60 shadow-[0_8px_30px_rgba(0,0,0,0.08)] rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
-          <h2 className="text-4xl md:text-5xl font-black font-display uppercase tracking-tighter mb-6">Få de nyeste insights direkte i din indbakke</h2>
-          <p className="text-lg text-bison-dark/60 mb-10 max-w-xl mx-auto">Vi sender kun guld. Ingen spam, kun viden der hjælper din forretning med at vokse.</p>
-          <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="email"
-              placeholder="Din e-mail adresse"
-              className="flex-1 bg-white border-none px-6 py-4 rounded-full text-bison-dark focus:ring-2 focus:ring-bison-brown outline-none font-bold"
-            />
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-bison-dark text-white px-8 py-4 rounded-full font-bold shadow-lg transition-shadow hover:shadow-xl"
-            >
-              Tilmeld
-            </motion.button>
-          </form>
-          {/* Animated diffuse rainbow border */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <filter id="soft-glow" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="6" result="blur" />
-                <feComposite in="SourceGraphic" in2="blur" operator="over" />
-              </filter>
-              <linearGradient id="snake-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="var(--color-bison-pink)" />
-                <stop offset="25%" stopColor="var(--color-bison-pink)" />
-                <stop offset="25%" stopColor="var(--color-bison-blue)" />
-                <stop offset="50%" stopColor="var(--color-bison-blue)" />
-                <stop offset="50%" stopColor="var(--color-bison-brown)" />
-                <stop offset="75%" stopColor="var(--color-bison-brown)" />
-                <stop offset="75%" stopColor="var(--color-bison-green)" />
-                <stop offset="100%" stopColor="var(--color-bison-green)" />
-              </linearGradient>
-            </defs>
-            <motion.rect
-              x="2"
-              y="2"
-              width="calc(100% - 4px)"
-              height="calc(100% - 4px)"
-              rx="46"
-              ry="46"
-              fill="none"
-              stroke="url(#snake-gradient)"
-              strokeWidth="8"
-              pathLength="100"
-              strokeDasharray="30 70"
-              filter="url(#soft-glow)"
-              strokeLinecap="round"
-              animate={{ strokeDashoffset: [100, 0] }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            />
-          </svg>
+        <div 
+          className="max-w-5xl mx-auto bg-white/40 backdrop-blur-2xl border border-white/60 shadow-[0_8px_40px_rgba(0,0,0,0.03)] rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden group transition-all duration-500"
+        >
+          {/* Internal Content wrapping */}
+          <div className="relative z-10">
+            <h2 className="text-4xl md:text-5xl font-black font-display uppercase tracking-tighter mb-6">Få de nyeste insights direkte i din indbakke</h2>
+            <p className="text-lg text-bison-dark/60 mb-10 max-w-xl mx-auto">Vi sender kun guld. Ingen spam, kun viden der hjælper din forretning med at vokse.</p>
+            <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
+              <input
+                type="email"
+                placeholder="Din e-mail adresse"
+                className="flex-1 bg-white/70 backdrop-blur-sm border border-white focus:border-bison-brown px-6 py-4 rounded-full text-bison-dark focus:ring-4 focus:ring-bison-brown/20 outline-none font-bold shadow-sm transition-all"
+              />
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-bison-dark text-white px-8 py-4 rounded-full font-bold shadow-lg transition-all hover:shadow-xl border border-bison-dark/10"
+              >
+                Tilmeld
+              </motion.button>
+            </form>
+          </div>
+          {/* Background Meteor Effect */}
+          <div 
+            className="absolute inset-0 z-0 pointer-events-none"
+            style={{
+              maskImage: 'linear-gradient(195deg, black 35%, transparent 44%)',
+              WebkitMaskImage: 'linear-gradient(195deg, black 35%, transparent 44%)'
+            }}
+          >
+            <Meteors number={28} />
+          </div>
         </div>
       </section>
 
-      {/* Grass Animation separating footer */}
-      <div className="pt-16 md:pt-24">
-        <GrassWind />
-      </div>
+      {/* Spacing before footer */}
+      <div className="h-16 md:h-20" />
     </main>
   );
 };

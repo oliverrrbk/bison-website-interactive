@@ -75,12 +75,12 @@ const About = () => {
       </section>
 
       {/* IMAGE 1: Large Team Image with stylized background block */}
-      <section className="px-6 mb-32 relative z-10 -mt-6">
+      <section className="px-6 mb-32 relative z-10 -mt-6" style={{ perspective: "1500px" }}>
         <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, rotateX: 25, y: 80, scale: 0.95 }}
+          whileInView={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ delay: 1.6, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-5xl mx-auto relative"
         >
           {/* White glass effect block */}
@@ -118,17 +118,33 @@ const About = () => {
       <section className="py-24 px-6 relative z-10">
         <div className="max-w-[70rem] mx-auto">
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={{
+              visible: { transition: { staggerChildren: 0.15, delayChildren: 1.8 } },
+              hidden: {}
+            }}
             className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-black font-display uppercase tracking-tight mb-4 text-bison-dark">
+            <motion.h2 
+              variants={{
+               hidden: { opacity: 0, y: 40, scale: 0.9, filter: "blur(15px)" },
+               visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { type: "spring", stiffness: 100, damping: 15, duration: 0.8 } }
+              }}
+              className="text-4xl md:text-5xl font-black font-display uppercase tracking-tight mb-4 text-bison-dark"
+            >
               KERNEVÆRDIER <span className="italic font-serif normal-case font-medium text-bison-brown">i fokus</span>
-            </h2>
-            <p className="text-sm md:text-base text-bison-dark/60 max-w-xl mx-auto font-bold uppercase tracking-widest">
+            </motion.h2>
+            <motion.p 
+              variants={{
+               hidden: { opacity: 0, y: 20, filter: "blur(10px)" },
+               visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.8, ease: "easeOut" } }
+              }}
+              className="text-sm md:text-base text-bison-dark/60 max-w-xl mx-auto font-bold uppercase tracking-widest"
+            >
               Gennemtestede metoder og prisvindende resultater
-            </p>
+            </motion.p>
           </motion.div>
 
           {/* New 3 USPs replacing 5 cards - Floating Background Icons */}
@@ -175,7 +191,7 @@ const About = () => {
                   y: [-10, 10, -10]
                 }}
                 transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute left-0 top-1/2 -translate-y-1/2 w-64 h-64 md:w-96 md:h-96 bg-bison-green/30 rounded-full blur-[80px] md:blur-[100px] mix-blend-multiply"
+                className="absolute left-0 top-1/2 -translate-y-1/2 w-64 h-64 md:w-96 md:h-96 bg-bison-pink/30 rounded-full blur-[80px] md:blur-[100px] mix-blend-multiply"
               />
               <motion.div
                 animate={{ 
@@ -184,7 +200,7 @@ const About = () => {
                   y: [10, -10, 10]
                 }}
                 transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 md:w-96 md:h-96 bg-bison-pink/30 rounded-full blur-[80px] md:blur-[100px] mix-blend-multiply"
+                className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 md:w-96 md:h-96 bg-bison-green/30 rounded-full blur-[80px] md:blur-[100px] mix-blend-multiply"
               />
               <motion.div
                 animate={{ 
@@ -366,13 +382,13 @@ const About = () => {
           >
             {/* "What they say" on the left, with animated underline */}
             <div className="flex flex-col items-start gap-2">
-              <h3 className="text-3xl md:text-5xl lg:text-[4rem] font-black font-display uppercase tracking-tighter leading-[0.9] text-bison-dark opacity-95">What they say</h3>
+              <h3 className="text-4xl md:text-[2.7rem] font-black font-display uppercase tracking-tight text-bison-dark">What they say</h3>
               <motion.div 
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-                className="h-1.5 md:h-2.5 bg-bison-blue w-full rounded-full origin-left mt-1"
+                className="h-[2px] md:h-1 bg-bison-blue opacity-50 w-full rounded-full origin-left mt-1"
               />
             </div>
             
@@ -434,10 +450,8 @@ const About = () => {
         </div>
       </section>
 
-      {/* Grass Animation separating footer */}
-      <div className="bg-[#fbfbf9] pt-24 md:pt-48">
-        <GrassWind />
-      </div>
+      {/* Spacing before footer */}
+      <div className="bg-[#fbfbf9] h-20 md:h-32" />
     </main>
   );
 };

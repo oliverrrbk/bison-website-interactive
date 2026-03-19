@@ -8,7 +8,27 @@ const StripeDecorator = ({ vertical = false, className = "" }) => (
 );
 
 const Footer = () => (
-  <footer className="bg-bison-dark text-white pt-32 pb-12 overflow-hidden relative">
+  <footer className="text-white pt-32 pb-12 overflow-hidden relative">
+    {/* Background Mesh Gradient with Noise Texture */}
+    <div className="absolute inset-0 z-0 overflow-hidden bg-[#2c1a11]">
+      <div 
+        className="absolute inset-0 w-full h-full opacity-90"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 15% 0%, #f3d8c1 0%, rgba(243, 216, 193, 0) 55%),
+            radial-gradient(ellipse at 50% 80%, #030201 0%, rgba(3, 2, 1, 0) 80%),
+            radial-gradient(circle at 95% 45%, #a86c47 0%, rgba(168, 108, 71, 0) 55%),
+            radial-gradient(circle at 0% 100%, #5e3522 0%, rgba(94, 53, 34, 0) 50%)
+          `
+        }}
+      />
+      {/* Grainy Noise Overlay */}
+      <div 
+        className="absolute inset-0 opacity-[0.25] mix-blend-overlay pointer-events-none" 
+        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} 
+      />
+    </div>
+
     <div className="max-w-7xl mx-auto px-6 relative z-10">
       <div className="grid md:grid-cols-4 gap-12 mb-20">
         <div className="col-span-2">
@@ -88,12 +108,12 @@ const Footer = () => (
     </div>
 
     {/* Large background text */}
-    <div className="absolute bottom-0 left-0 right-0 translate-y-1/2 opacity-[0.02] pointer-events-none select-none text-center">
+    <div className="absolute bottom-0 left-0 right-0 translate-y-1/2 opacity-[0.05] pointer-events-none select-none text-center z-10 mix-blend-overlay">
       <h1 className="text-[25vw] font-black font-display uppercase tracking-tighter leading-none">BISON</h1>
     </div>
 
-    {/* Bottom stripe */}
-    <StripeDecorator className="absolute bottom-0 left-0 right-0 h-2" />
+    {/* Top stripe acting as border */}
+    <StripeDecorator className="absolute top-0 left-0 right-0 h-2 z-20" />
   </footer>
 );
 
